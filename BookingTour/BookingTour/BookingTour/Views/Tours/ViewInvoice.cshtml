@@ -1,0 +1,84 @@
+﻿@model BookingTour.Models.Invoice
+
+@{
+    ViewData["Title"] = "Chi Tiết Hóa Đơn";
+    Layout = "_LayoutUser";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+
+  
+</head>
+
+<div style="max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;margin-bottom:20px">
+    <h4 style="text-align: center; margin-bottom: 20px;">Thông Tin Hóa Đơn</h4>
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+            <span style="font-weight: bold;">Mã Hóa Đơn:</span>
+            <span>@Model.IdInvoice</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+            <span style="font-weight: bold;">Mô Tả:</span>
+            <span>@Model.Description</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+            <span style="font-weight: bold;">Tổng Tiền:</span>
+            <span>@Model.TotalAmount VNĐ</span> <!-- Định dạng số tiền -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+            <span style="font-weight: bold;">Ngày Thanh Toán:</span>
+            <span>@Model.BillingDate</span> <!-- Định dạng ngày tháng -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 20px;">
+            <span style="font-weight: bold;">Ngày Tạo:</span>
+            <span>@Model.CreatedAt</span> <!-- Định dạng thời gian tạo -->
+        </div>
+
+    </div>
+
+    <div style="text-align: center;">
+        <a asp-action="Index" asp-controller="History" style="background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Trở Về Danh Sách Đặt Tour</a>
+    </div>
+</div>
+
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+<script src="~/js/typed.js"></script>
+<script src="~/js/custom.js"></script>
+
+</html>

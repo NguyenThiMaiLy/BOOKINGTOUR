@@ -1,0 +1,128 @@
+﻿@model BookingTour.Models.Tour
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+
+
+
+<hr />
+<div class="row" style="display: flex; justify-content: center; padding: 20px;">
+    
+    <div class="col-md-8" style="background-color: lightgray; padding:20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h4 style="color: #555;">Thông tin tour</h4>
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" style="margin-bottom: 20px;">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" style="margin-bottom: 20px;">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            @if (TempData["WarningMessage"] != null)
+            {
+                <div class="alert alert-warning" style="margin-bottom: 20px;">
+                    @TempData["WarningMessage"]
+                </div>
+            }
+
+            <!-- Tour Name -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="Name" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="Name" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Tour Description -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="Description" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="Description" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Avatar -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="avatarFile" class="control-label" style="font-weight: bold;">Ảnh đại diện</label>
+                <input type="file" name="avatarFile" class="form-control" style="padding: 10px;" />
+            </div>
+
+            <!-- Additional Images -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="images" class="control-label" style="font-weight: bold;">Ảnh bổ sung</label>
+                <input type="file" name="imageFiles" multiple class="form-control" style="padding: 10px;" />
+            </div>
+
+            <!-- Start Date -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="StartDate" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="StartDate" class="form-control" type="date" style="padding: 10px; border-radius: 5px;" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <!-- End Date -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="EndDate" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="EndDate" class="form-control" type="date" style="padding: 10px; border-radius: 5px;" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <!-- Max Quantity -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="MaxQuantity" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="MaxQuantity" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                <span asp-validation-for="MaxQuantity" class="text-danger"></span>
+            </div>
+
+            <!-- Price -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label asp-for="Price" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="Price" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <!-- Tour Type -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                @* <label asp-for="IdType" class="control-label" style="font-weight: bold;"></label> *@
+                <select asp-for="IdType" asp-items="ViewBag.IdType" style="padding: 10px; border-radius: 5px;"></select>
+            </div>
+
+            <!-- Transportation -->
+            <div class="form-group" style="margin-bottom: 20px;">
+            @*     <label asp-for="IdTrans" class="control-label" style="font-weight: bold;"></label> *@
+                <select asp-for="IdTrans"  asp-items="ViewBag.IdTrans" style="padding: 10px; border-radius: 5px;"></select>
+            </div>
+
+            <!-- Hotel -->
+            <div class="form-group" style="margin-bottom: 20px;">
+          @*       <label asp-for="IdHotel" class="control-label" style="font-weight: bold;"></label> *@
+                <select asp-for="IdHotel"  asp-items="ViewBag.IdHotel" style="padding: 10px; border-radius: 5px;"></select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group" style="margin-top: 20px;">
+                <input type="submit" value="Tạo Tour" class="btn btn-primary" style="padding: 10px 20px; font-size: 1.1em; border-radius: 5px;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    <a asp-action="Index" style="font-size: 1.1em; color: #007bff;">Quay lại danh sách tour</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

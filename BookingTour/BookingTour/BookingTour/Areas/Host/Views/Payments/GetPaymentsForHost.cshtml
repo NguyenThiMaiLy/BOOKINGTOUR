@@ -1,0 +1,123 @@
+﻿@model IEnumerable<BookingTour.Models.Payment>
+
+@{
+    ViewData["Title"] = "Payments for Your Tours";
+    Layout = "_LayoutHost";
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2>
+                DANH SÁCH THANH TOÁN
+                <small>Thông tin các khoản thanh toán của bạn</small>
+            </h2>
+            <form method="get" action="@Url.Action("GetPaymentsForHost")" style="position: absolute; top: 10px; right: 10px;">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit" style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <div class="body table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID thanh toán</th>
+                      
+                        <th></th>
+   
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model)
+                    {
+                        <tr>
+                            <td>@payment.IdPayment</td>
+                           @*  <td>@payment.Method</td>
+                            <td>@payment.Amount</td>
+                            <td>@payment.Date?.ToString("yyyy-MM-dd")</td> *@
+                            
+                            <td>
+                                <a href="javascript:void(0)"
+                                   data-id="@payment.IdPayment"
+                                   data-method="@payment.Method"
+                                   data-amount="@payment.Amount"
+                                   data-date="@payment.Date?.ToString("yyyy-MM-dd")"
+                                   data-status="@payment.Status"
+                                   onclick="showPaymentDetails(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-medical" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="GetPaymentsForHost" asp-route-pageNumber="@(ViewBag.CurrentPage - 1)">Trước</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" asp-action="GetPaymentsForHost" asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="GetPaymentsForHost" asp-route-pageNumber="@(ViewBag.CurrentPage + 1)">Sau</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="paymentDetailsModal" tabindex="-1" aria-labelledby="paymentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentDetailsModalLabel">Chi tiết thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID thanh toán:</strong> <span id="paymentId"></span></p>
+                <p><strong>Phương thức thanh toán:</strong> <span id="paymentMethod"></span></p>
+                <p><strong>Số tiền thanh toán:</strong> <span id="paymentAmount"></span></p>
+                <p><strong>Ngày thanh toán:</strong> <span id="paymentDate"></span></p>
+                <p><strong>Trạng thái:</strong> <span id="paymentStatus"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showPaymentDetails(button) {
+            const paymentId = button.getAttribute("data-id");
+            const paymentMethod = button.getAttribute("data-method");
+            const paymentAmount = button.getAttribute("data-amount");
+            const paymentDate = button.getAttribute("data-date");
+            const paymentStatus = button.getAttribute("data-status");
+
+            document.getElementById("paymentId").textContent = paymentId;
+            document.getElementById("paymentMethod").textContent = paymentMethod;
+            document.getElementById("paymentAmount").textContent = paymentAmount;
+            document.getElementById("paymentDate").textContent = paymentDate;
+            document.getElementById("paymentStatus").textContent = paymentStatus;
+
+            $('#paymentDetailsModal').modal('show');
+        }
+    </script>
+}

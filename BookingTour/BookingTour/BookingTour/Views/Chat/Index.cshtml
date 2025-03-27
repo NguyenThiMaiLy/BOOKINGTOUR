@@ -1,0 +1,192 @@
+﻿@{
+    ViewData["Title"] = "Chat with Admin";
+    Layout = null;
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    #chatContainer {
+        width: 100%;
+        max-width: 600px;
+        background-color: #ffffff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #chatWindow {
+        padding: 10px;
+        height: 400px;
+        overflow-y: auto;
+        border-bottom: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+
+    #messagesList {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        #messagesList li {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        /* Style for messages from the user */
+        #messagesList .userMessage {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        /* Style for messages from the admin */
+        #messagesList .adminMessage {
+            background-color: #f8d7da;
+            color: #721c24;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+    #messageInputContainer {
+        display: flex;
+        border-top: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    #messageInput {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        outline: none;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    /* Style for notifications */
+    .notification {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1000;
+    }
+</style>
+
+<div id="chatContainer">
+    <div id="chatWindow">
+        <ul id="messagesList"></ul>
+    </div>
+    <div id="messageInputContainer">
+        <input type="text" id="messageInput" placeholder="Type your message here..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.18/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chatHub")
+        .build();
+
+    connection.serverTimeoutInMilliseconds = 60000;
+
+    connection.on("ReceiveMessageFromUser", (userName, message) => {
+        appendMessage(`${userName}: ${message}`, "userMessage");
+    });
+
+    connection.on("ReceiveMessageFromAdmin", (adminName, message) => {
+        appendMessage(`${adminName}: ${message}`, "adminMessage");
+        showNotification("New message from Admin");
+    });
+
+    connection.on("NewMessageNotification", () => {
+        showNotification("You have a new message");
+    });
+
+    // Append message to the list
+    function appendMessage(message, type) {
+        const li = document.createElement("li");
+        li.textContent = message;
+        li.classList.add(type);
+        const timeSpan = document.createElement("span");
+        timeSpan.className = "message-time";
+        timeSpan.textContent = new Date().toLocaleTimeString();
+        li.appendChild(timeSpan);
+        document.getElementById("messagesList").appendChild(li);
+
+        // Auto scroll to the bottom of the chat window
+        li.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+
+    // Send message to the admin
+    async function sendMessage() {
+        const message = document.getElementById("messageInput").value;
+        if (message.trim() === "") return; // Don't send empty messages
+        await connection.invoke("SendMessageToAdmin", message);
+        document.getElementById("messageInput").value = "";
+    }
+
+    // Show notification on the screen
+    function showNotification(message) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // Automatically remove the notification after 3 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    // Start the connection and load chat history
+    connection.start().then(() => {
+        console.log("Connected to SignalR.");
+        loadChatHistory();
+    }).catch(err => console.error(err.toString()));
+
+    // Load the chat history
+    function loadChatHistory() {
+        connection.invoke("GetChatHistory", "")
+            .then(messages => {
+                messages.forEach(msg => {
+                    const messageType = msg.senderId === "Admin" ? "adminMessage" : "userMessage";
+                    appendMessage(msg.message, messageType);
+                });
+            })
+            .catch(err => console.error("Error loading chat history: " + err.toString()));
+    }
+</script>

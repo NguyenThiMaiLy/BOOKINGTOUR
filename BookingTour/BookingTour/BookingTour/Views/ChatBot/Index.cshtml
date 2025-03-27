@@ -1,0 +1,168 @@
+﻿@{
+    
+    Layout = null;
+}
+<div id="chatBotContainer" style="display: none;">
+    <div id="chatBotHeader">
+        <h4>Chat với chúng tôi</h4>
+        <button onclick="toggleChatBot()">×</button>
+    </div>
+    <div id="chatBotBody">
+        <!-- Tin nhắn sẽ hiển thị tại đây -->
+    </div>
+    <input type="text" id="chatInput" placeholder="Gõ tin nhắn..." onkeypress="sendMessageToBot(event)">
+</div>
+
+<button id="chatToggleButton" onclick="toggleChatBot()">💬</button>
+
+<style>
+    /* CSS cho chatbot */
+    #chatBotContainer {
+        position: fixed;
+        bottom: 80px;
+        right: 100px;
+        width: 300px;
+        max-height: 500px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+    }
+
+    #chatBotHeader {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        #chatBotHeader button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            #chatBotHeader button:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+            }
+
+    #chatBotBody {
+        padding: 10px;
+        overflow-y: auto;
+        flex-grow: 1;
+        max-height: 400px;
+        border-top: 1px solid #f1f1f1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .userMessage {
+        background-color: #dcf8c6;
+        color: #333;
+        padding: 8px 12px;
+        border-radius: 12px;
+        margin: 5px 0;
+        display: inline-block;
+        max-width: 80%;
+        align-self: flex-end;
+    }
+
+    .botMessage {
+        background-color: #f1f1f1;
+        color: #333;
+        padding: 8px 12px;
+        border-radius: 12px;
+        margin: 5px 0;
+        display: inline-block;
+        max-width: 80%;
+        align-self: flex-start;
+    }
+
+    #chatInput {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: none;
+        border-top: 1px solid #f1f1f1;
+        outline: none;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    #chatToggleButton {
+        position: fixed;
+        bottom: 20px;
+        right: 100px;
+        width: 50px;
+        height: 50px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+        #chatToggleButton:hover {
+            background-color: #0056b3;
+        }
+
+</style>
+
+<script>
+    function toggleChatBot() {
+        let chatContainer = document.getElementById("chatBotContainer");
+        chatContainer.style.display = chatContainer.style.display === "none" || chatContainer.style.display === "" ? "block" : "none";
+    }
+
+    function sendMessageToBot(event) {
+        if (event.key === "Enter") {
+            let message = document.getElementById("chatInput").value.trim();
+            if (message) {
+                addMessage("Bạn", message);
+
+                // Gửi yêu cầu tới API với tin nhắn của người dùng
+                fetch("/ChatBot/SendMessage", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(message) // Gửi tin nhắn dưới dạng JSON
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok: " + response.statusText);
+                        }
+                        return response.json(); // Chuyển phản hồi về dạng JSON
+                    })
+                    .then(data => {
+                        addMessage("Bot", data.response); // Hiển thị phản hồi từ Bot
+                    })
+                    .catch(error => console.error("Lỗi khi gửi tin nhắn:", error));
+
+                document.getElementById("chatInput").value = ""; // Xóa nội dung ô nhập sau khi gửi
+            }
+        }
+    }
+
+    function addMessage(sender, text) {
+        let chatBody = document.getElementById("chatBotBody");
+        let messageDiv = document.createElement("div");
+        messageDiv.className = sender === "Bạn" ? "userMessage" : "botMessage"; // Chọn kiểu hiển thị cho người dùng và bot
+        messageDiv.innerHTML = `<strong>${sender}: </strong>${text}`;
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight; // Cuộn xuống dưới khi có tin nhắn mới
+    }
+
+</script>

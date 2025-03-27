@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BookingTour.Models.Tour>
+
+<h4>Điểm đến phổ biến</h4>
+<div class="popular-destinations">
+    @foreach (var tour in Model)
+    {
+        <div class="tour-item">
+            <h5>@tour.Name</h5>
+            <img src="@tour.Image" alt="@tour.Name" class="tour-image" />
+            <p class="tour-description">@tour.Description</p>
+            <p class="tour-bookings">Số lượt đặt: @tour.Bookings.Count</p>
+        </div>
+    }
+</div>
+
+<style>
+    .popular-destinations {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tour-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .tour-image {
+        width: 100%;
+        height: auto;
+        border-radius: 3px;
+    }
+
+    .tour-description {
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    .tour-bookings {
+        font-weight: bold;
+        color: #333;
+    }
+</style>

@@ -1,0 +1,42 @@
+﻿/* CSS cho logo */
+.logoes {
+    display: inline-block;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    position: relative;
+    left: -100px;
+    padding-left: 50px;
+}
+
+/* CSS cho biểu tượng máy bay */
+.plane-icon {
+    padding-top: 3px;
+    padding-left: 50px;
+    font-size: 20px; /* Kích thước icon */
+    position: absolute;
+    top: -20px; /* Điều chỉnh khoảng cách icon máy bay với chữ */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* CSS cho chữ chính của logo */
+.logo-text {
+    font-size: 32px; /* Kích thước chữ 'VIUVIU' */
+    font-weight: bold;
+    color: #007bff; /* Màu chữ 'VIU' */
+}
+
+    /* CSS cho phần chữ đặc biệt */
+    .logo-text .highlight {
+        color: #ff5733; /* Màu chữ cho phần 'VIU' thứ hai */
+        font-weight: normal;
+    }
+
+/* CSS cho phần ".com" */
+.subtext {
+    font-size: 14px; /* Kích thước chữ .com */
+    color: #555; /* Màu cho .com */
+    margin-top: -5px; /* Điều chỉnh khoảng cách giữa VIUVIU và .com */
+}
+
+

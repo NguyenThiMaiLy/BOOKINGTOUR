@@ -1,0 +1,38 @@
+﻿body {
+    /*background-image: url('background.jpg');*/
+    background-image: url('../../images/img_3.jpg');
+    /*background-image: url('../../images/user/background.jpg');*/ /* Đường dẫn đến hình nền của bạn */
+    background-size: cover; /* Đảm bảo hình ảnh bao phủ toàn bộ nền */
+    background-position: center; /* Đặt hình ảnh ở giữa */
+    background-repeat: no-repeat; /* Không lặp lại hình ảnh */
+    height: 100vh; /* Chiều cao toàn bộ trang */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.9); /* Tăng độ trong suốt */
+    border-radius: 1.5rem; /* Bo tròn góc thêm */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Tăng độ bóng cho thẻ */
+    width: 100%; /* Điều chỉnh chiều rộng của thẻ */
+    margin: auto; /* Canh giữa thẻ */
+    padding: 20px; /* Thêm khoảng cách bên trong thẻ */
+}
+
+.rounded {
+    border-radius: 1rem;
+}
+
+.nav-pills .nav-link {
+    color: #555;
+}
+
+    .nav-pills .nav-link.active {
+        color: white;
+    }
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+.bold {
+    font-weight: bold;
+}

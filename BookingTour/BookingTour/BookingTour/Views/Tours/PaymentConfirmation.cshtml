@@ -1,0 +1,25 @@
+﻿@model BookingTour.Models.PaymentConfirmationViewModel
+
+@{
+    ViewData["Title"] = "Xác Nhận Thanh Toán";
+    Layout = null;
+}
+
+@* <h1>Xác Nhận Thanh Toán</h1>
+
+<div class="payment-confirmation">
+    <h2>Thông Tin Hóa Đơn</h2>
+    <p><strong>ID Hóa Đơn:</strong> @Model.IdInvoice</p>
+    <p><strong>Mô Tả:</strong> @Model.Description</p>
+    <p><strong>Tổng Số Tiền:</strong> @Model.TotalAmount.ToString("C")</p>
+    <p><strong>Ngày Thanh Toán:</strong> @Model.BillingDate.ToString("dd/MM/yyyy")</p>
+    <p><strong>Ngày Tạo:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy")</p>
+
+    <div class="payment-status">
+        <h3>Trạng Thái Thanh Toán:</h3>
+        <p>@(Model.IsRefunded ? "Đã Hoàn Tiền" : "Chưa Hoàn Tiền")</p>
+    </div>
+
+    <a asp-controller="Tours" asp-action="Index" class="btn btn-primary">Trở Về Danh Sách Tour</a>
+</div>
+ *@

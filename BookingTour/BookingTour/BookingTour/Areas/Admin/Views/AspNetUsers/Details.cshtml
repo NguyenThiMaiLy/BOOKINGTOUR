@@ -1,0 +1,109 @@
+﻿@model BookingTour.Models.AspNetUser
+
+@{
+    ViewData["Title"] = "Thông Tin Người Dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-3">
+    <div class="card profile-card">
+        <div class="profile-header">&nbsp;</div>
+        <div class="profile-body">
+            <div class="image-area">
+                <img src="@Url.Content("~/images/" + (Model.AvatarUrl ?? "default-avatar.jpg"))" class="tour-image" />
+            </div>
+            <div class="content-area">
+                <h3>@Model.fullname</h3>
+                <p>@Model.Email</p>
+                <p>Web Software Developer</p>
+                <p>Administrator</p>
+            </div>
+        </div>
+        <div class="profile-footer"></div>
+    </div>
+
+    <div class="card card-about-me">
+        <div class="header">
+            <h2>Thông Tin Của Tôi</h2>
+        </div>
+        <div class="body">
+            <ul>
+                <li>
+                    <div class="title">
+                        <i class="material-icons">person</i>
+                        Họ và tên
+                    </div>
+                    <div class="content">
+                        @Model.fullname
+                    </div>
+                </li>
+                <li>
+                    <div class="title">
+                        <i class="material-icons">email</i>
+                        Email
+                    </div>
+                    <div class="content">
+                        @Model.Email
+                    </div>
+                </li>
+                <li>
+                    <div class="title">
+                        <i class="material-icons">home</i>
+                        Địa chỉ
+                    </div>
+                    <div class="content">
+                        @Model.Address
+                    </div>
+                </li>
+                <li>
+                    <div class="title">
+                        <i class="material-icons">calendar_today</i>
+                        Tuổi
+                    </div>
+                    <div class="content">
+                        @Model.Age
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-9">
+    <div class="card">
+        <div class="body">
+            <div>
+                <h3 style="margin-bottom: 20px;">Thông Tin Người Dùng</h3>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Tên người dùng:</th>
+                            <td>@Model.UserName</td>
+                        </tr>
+                        <tr>
+                            <th>Họ và tên:</th>
+                            <td>@Model.fullname</td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <th>Số điện thoại:</th>
+                            <td>@Model.PhoneNumber</td>
+                        </tr>
+                        <tr>
+                            <th>Địa chỉ:</th>
+                            <td>@Model.Address</td>
+                        </tr>
+                        <tr>
+                            <th>Tuổi:</th>
+                            <td>@Model.Age</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a asp-action="Index" class="btn btn-secondary" style="margin-top: 20px;">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+</div>

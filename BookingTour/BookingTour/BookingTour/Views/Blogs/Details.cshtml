@@ -1,0 +1,129 @@
+﻿@model BookingTour.Models.Blog
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+
+</head>
+
+<div style="display: flex; gap: 20px; padding: 20px;">
+    <!-- Phần chi tiết blog -->
+    <div style="flex: 3;">
+        <h1 style="font-size: 24px; color: #333;">@Model.Title</h1>
+        <p style="font-size: 14px; color: #888;">@Model.CreatedAt.ToString("dd/MM/yyyy") - @Model.Status</p>
+        
+        <div style="margin-top: 20px;">
+            <img src="~/images/@Model.ImageUrl" alt="@Model.Title" 
+                 style="width: 60%; height: auto; margin-bottom: 20px; object-fit: cover;">
+            <p style="font-size: 16px; line-height: 1.6; color: #333;">@Model.Content</p>
+        </div>
+
+        <!-- Hình ảnh bổ sung -->
+        <div style="margin-top: 20px;">
+          @*   @foreach (var image in Model.ImageUrl)
+            {
+                <img src="~/images/@image.Url" alt="Additional Image" style="width: 100%; margin-top: 15px; height: auto;">
+            } *@
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div style="flex: 1;">
+        <!-- Tìm kiếm -->
+        <div style="display: flex; margin-bottom: 20px;">
+            <input type="text" placeholder="Nhập từ khóa..." style="flex: 1; padding: 8px;">
+            <button type="submit" style="padding: 8px;">🔍</button>
+        </div>
+
+        <!-- Các bài viết khác -->
+        <h3 style="font-size: 18px; margin-bottom: 10px;">Khuyến mãi khác</h3>
+        <ul style="list-style: none; padding: 0;">
+            @foreach (var blog in ViewBag.OtherBlogs)
+            {
+                <li style="margin-bottom: 10px;">
+                    <a href="@Url.Action("Details", "Blog", new { id = blog.IdBlog })" style="text-decoration: none; color: #333;">
+                        <img src="~/images/@blog.ImageUrl" alt="@blog.Title"
+                             style="width: 100%; height: auto; object-fit: cover;">
+                        <h4 style="font-size: 16px; margin-top: 5px;">@blog.Title</h4>
+                    </a>
+                </li>
+            }
+        </ul>
+
+        <!-- Quảng cáo -->
+        <div style="margin-top: 20px; text-align: center;">
+            <img src="~/images/qc.jpg" alt="Quảng cáo" style="width: 100%; height: auto;">
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<script src="~/js/typed.js"></script>
+<script>
+    $(function () {
+        var slides = $('.slides'),
+            images = slides.find('img');
+
+        images.each(function (i) {
+            $(this).attr('data-id', i + 1);
+        })
+
+        var typed = new Typed('.typed-words', {
+            strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true,
+            preStringTyped: (arrayPos, self) => {
+                arrayPos++;
+                console.log(arrayPos);
+                $('.slides img').removeClass('active');
+                $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+            }
+
+        });
+    })
+</script>
+
+<script src="~/js/custom.js"></script>
+
+
+</html>

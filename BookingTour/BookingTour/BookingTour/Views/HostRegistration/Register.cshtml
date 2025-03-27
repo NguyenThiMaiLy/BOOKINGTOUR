@@ -1,0 +1,82 @@
+﻿@model BookingTour.Models.HostRegistration
+
+@{
+    ViewData["Title"] = "Đăng Ký Nhà Cung Cấp Tour";
+    Layout = "_LayoutUser"; // Thay thế bằng layout mà bạn đang sử dụng
+}
+
+@if (ViewBag.ErrorMessages != null)
+{
+    foreach (var error in ViewBag.ErrorMessages)
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var state in ViewData.ModelState)
+            {
+                foreach (var error in state.Value.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+
+@if (ViewBag.LogMessage != null)
+{
+    <div class="alert alert-info">@ViewBag.LogMessage</div>
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+ 
+</head>
+<body>
+    <div class="container py-5">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 style="text-align:center">Đăng Ký Nhà Cung Cấp Tour</h2>
+    <form method="post" action="@Url.Action("Register", "HostRegistration")">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="FullName">Họ và Tên</label>
+            <input type="text" name="FullName" class="form-control" required />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" name="Email" class="form-control" required />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Đăng Ký</button>
+        </div>
+    </form>
+    </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+</body>
+</html>

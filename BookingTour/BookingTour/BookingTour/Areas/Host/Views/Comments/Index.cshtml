@@ -1,0 +1,120 @@
+﻿@model IEnumerable<BookingTour.Models.Comment>
+@{
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+<h2 class="text-center mb-4">Quản lý bình luận cho tour</h2>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2>
+                DANH SÁCH BÌNH LUẬN VÀ ĐÁNH GIÁ
+               
+            </h2>
+            <form method="get" action="@Url.Action("Index")" style="position: absolute; top: 10px; right: 10px; ">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit"
+                        style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+           
+        </div>
+        <div class="body table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                    <div class="col-sm-6" style="width:20%">
+                  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Khách hàng</th>
+                                    <th>Bình luận</th>
+                                    <th>Ngày bình luận</th>
+                                    <th>Đánh giá</th>
+                                    <th>Trả lời</th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var comment in Model)
+                                {
+                                    <tr>
+                                        <td>@comment.IdNavigation?.fullname </td>  <!-- Hiển thị tên khách hàng, nếu không có hiển thị "Không xác định" -->
+                                        <td>@comment.Content </td>  <!-- Hiển thị nội dung bình luận, nếu không có hiển thị "Không có bình luận" -->
+                                        <td>@comment.CommentDate?</td> <!-- Hiển thị ngày bình luận -->
+                                        <td>
+                                            <form method="post" action="@Url.Action("UpdateRating", "Comments", new { idComment = comment.Id, idTour = comment.IdTour })" style="display: flex; align-items: center;">
+                                                <input type="number" name="rating" value="@comment.Rating" min="1" max="5" class="form-control" style="flex: 1; margin-right: 10px;" />
+                                                <button type="submit" class="btn btn-primary mt-2">Cập nhật điểm</button>
+                                            </form>
+
+                                        </td>
+                                        <td>@comment.Reply</td> <!-- Hiển thị trả lời, nếu không có trả lời thì hiển thị "Chưa có trả lời" -->
+                                        <td>
+                                            @if (!comment.IsHidden)
+                                            {
+                                                <form method="post" action="@Url.Action("Reply", "Comments", new { idComment = comment.Id, idTour = comment.IdTour })" style="display: flex; align-items: center;">
+                                                    <input type="text" name="replyContent" placeholder="Trả lời..." class="form-control" style="margin-right: 10px;" />
+                                                    <button type="submit" class="btn btn-success">Phản hồi</button>
+                                                </form>
+
+                                               
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Bình luận đã bị ẩn</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <form method="post" action="@Url.Action("Hide", "Comments", new { idComment = comment.Id, idTour = comment.IdTour })" style="display: flex; align-items: center;">
+                                                <button type="submit" class="btn btn-danger">Ẩn bình luận</button>
+                                            </form>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <!-- Trang trước -->
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-idTour="@ViewBag.iduser" asp-route-page="@(ViewBag.CurrentPage - 1)">Trước</a>
+                        </li>
+
+                        <!-- Các trang -->
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-route-idTour="@ViewBag.iduser" asp-route-page="@i">@i</a>
+                            </li>
+                        }
+
+                        <!-- Trang sau -->
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-idTour="@ViewBag.iduser" asp-route-page="@(ViewBag.CurrentPage + 1)">Sau</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

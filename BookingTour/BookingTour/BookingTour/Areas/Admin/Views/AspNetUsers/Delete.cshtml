@@ -1,0 +1,56 @@
+﻿@model BookingTour.Models.AspNetUser
+
+@{
+    ViewData["Title"] = "Xác Nhận Xóa Người Dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 class="text-danger text-center">Xác Nhận Xóa Tài Khoản</h1>
+<p class="text-center text-muted">
+    Việc xóa tài khoản này là <strong>không thể khôi phục</strong>. Bạn chắc chắn muốn tiếp tục?
+</p>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Thông Tin Người Dùng</h4>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4 text-secondary">Họ Tên</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.fullname)</dd>
+
+            <dt class="col-sm-4 text-secondary">Email</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+            <dt class="col-sm-4 text-secondary">Số Điện Thoại</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+
+            <dt class="col-sm-4 text-secondary">Ngày Tạo Tài Khoản</dt>
+            <dd class="col-sm-8">01/01/2023</dd> <!-- Dùng dữ liệu thật từ model nếu có -->
+
+            <dt class="col-sm-4 text-secondary">Trạng Thái</dt>
+            <dd class="col-sm-8">
+                <span class="badge badge-success">Đang hoạt động</span>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="alert alert-warning mt-4 d-flex align-items-center" role="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill mr-2" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.5 1.5 0 0 0-2.764 0L.165 13.233c-.457.778.091 1.767.982 1.767h13.706c.891 0 1.439-.99.982-1.767L8.982 1.566zm-.458 10.938a.905.905 0 1 1 1.816 0 .905.905 0 0 1-1.816 0zm.819-7.485a.548.548 0 0 0-.638.538l-.007 3.99c-.002.317.252.573.566.573h.007c.314 0 .568-.256.566-.573l-.007-3.99a.548.548 0 0 0-.487-.538z" />
+    </svg>
+    Hãy cẩn thận! Thao tác này sẽ xóa vĩnh viễn tài khoản.
+</div>
+
+<div style="display: flex; align-items: center;">
+    <form asp-action="Delete" method="post" style="margin-bottom: 0; margin-right: 10px;">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger btn-sm">
+            <i class="bi bi-trash-fill"></i> Xóa
+        </button>
+    </form>
+    <a asp-action="Index" class="btn btn-info btn-sm" style="margin-bottom: 0;">
+        <i class="bi bi-arrow-left"></i> Hủy
+    </a>
+</div>

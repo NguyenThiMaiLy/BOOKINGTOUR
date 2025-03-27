@@ -1,0 +1,439 @@
+﻿<!-- /*
+* Template Name: Tour
+* Template Author: Untree.co
+* Tempalte URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="favicon.png">
+
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap4" />
+	<link href="~/css/aos.css" rel="stylesheet" />
+    <link href="~/css/user/logo.css" rel="stylesheet" />
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+	<link href="~/css/daterangepicker.css" rel="stylesheet" />
+	<link href="~/css/jquery.fancybox.min.css" rel="stylesheet" />
+	<link href="~/css/mixins/_background-variant.css" rel="stylesheet" />
+	<link href="~/css/mixins/_deprecate.css" rel="stylesheet" />
+	<link href="~/css/mixins/_resize.css" rel="stylesheet" />
+	<link href="~/css/owl.carousel.min.css" rel="stylesheet" />
+	<link href="~/css/owl.theme.default.min.css" rel="stylesheet" />
+	<link href="~/css/_mixins.css" rel="stylesheet" />
+	<link href="~/css/_site-blocks.css" rel="stylesheet" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+	<title>Tour Free Bootstrap Template for Travel Agency by Untree.co</title>
+</head>
+
+<body>
+
+	@{
+		var successMessage = TempData["SuccessMessage"];
+		var errorMessage = TempData["ErrorMessage"];
+	}
+
+	@if (successMessage != null)
+	{
+		<div id="popup-success" style="position: fixed; top: 10px; right: 20px; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; z-index: 9999; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: block;">
+			<span class="closebtn" onclick="closePopup('popup-success')" style="font-size: 20px; color: #aaa; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</span>
+			@successMessage
+		</div>
+	}
+
+	@if (errorMessage != null)
+	{
+		<div id="popup-error" style="position: fixed; top: 10px; right: 20px; background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 5px; z-index: 9999; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: block;">
+			<span class="closebtn" onclick="closePopup('popup-error')" style="font-size: 20px; color: #aaa; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</span>
+			@errorMessage
+		</div>
+	}
+	<div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+
+	<nav class="site-nav" >
+		<div class="container" style="margin-top:0%">
+			<div class="site-navigation" >
+				<div class="logoes">
+					<span class="plane-icon">✈️</span>
+					<div class="logo-text">VIU<span class="highlight">VIU</span></div>
+				</div>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+					<li class="active"><a href="@Url.Action("index", "Tours")">Trang chủ</a></li>
+					<li class="active"><a href="@Url.Action("index", "Tours")">Tour</a></li>
+					<li class="active"><a href="@Url.Action("index", "Hotels")">Khách sạn</a></li>
+					<li class="active"><a href="@Url.Action("Bloglist", "Blogs")">Bài viết</a></li>
+					<li class="has-children">
+						<partial name="_LoginPartial" />
+
+					</li>
+				</ul>
+
+				<a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="hero" style="margin-bottom:0%">
+	</div>
+		@* <div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-7">
+					<div class="intro-wrap">
+						<h1 class="mb-5"><span class="d-block">Let's Enjoy Your</span> Trip In <span class="typed-words"></span></h1>
+
+						<div class="row">
+							<div class="col-12">
+								<form class="form">
+									<div class="row mb-2">
+										<div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
+											<select name="" id="" class="form-control custom-select">
+												<option value="">Destination</option>
+												<option value="">Peru</option>
+												<option value="">Japan</option>
+												<option value="">Thailand</option>
+												<option value="">Brazil</option>
+												<option value="">United States</option>
+												<option value="">Israel</option>
+												<option value="">China</option>
+												<option value="">Russia</option>
+											</select>
+										</div>
+										<div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-5">
+											<input type="text" class="form-control" name="daterange">
+										</div>
+										<div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-3">
+											<input type="text" class="form-control" placeholder="# of People">
+										</div>
+
+									</div>
+									<div class="row align-items-center">
+										<div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
+											<input type="submit" class="btn btn-primary btn-block" value="Search">
+										</div>
+										<div class="col-lg-8">
+											<label class="control control--checkbox mt-3">
+												<span class="caption">Save this search</span>
+												<input type="checkbox" checked="checked" />
+												<div class="control__indicator"></div>
+											</label>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5">
+					<div class="slides">
+						<img src="images/hero-slider-1.jpg" alt="Image" class="img-fluid active">
+						<img src="images/hero-slider-2.jpg" alt="Image" class="img-fluid">
+						<img src="~/images/hero-slider-3.jpg" alt="Image" class="img-fluid">
+						<img src="images/hero-slider-4.jpg" alt="Image" class="img-fluid">
+						<img src="images/hero-slider-5.jpg" alt="Image" class="img-fluid">
+					</div>
+				</div>
+			</div>
+		</div> *@
+	
+
+@* 
+	<div class="untree_co-section">
+		<div class="container">
+			<div class="row mb-5 justify-content-center">
+				<div class="col-lg-6 text-center">
+					<h2 class="section-title text-center mb-3">Our Services</h2>
+					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+				</div>
+			</div>
+			<div class="row align-items-stretch">
+				<div class="col-lg-4 order-lg-1">
+					<div class="h-100"><div class="frame h-100"><div class="feature-img-bg h-100" style="background-image: url('images/hero-slider-1.jpg');"></div></div></div>
+				</div>
+
+				<div class="col-6 col-sm-6 col-lg-4 feature-1-wrap d-md-flex flex-md-column order-lg-1">
+
+					<div class="feature-1 d-md-flex">
+						<div class="align-self-center">
+							<span class="flaticon-house display-4 text-primary"></span>
+							<h3>Beautiful Condo</h3>
+							<p class="mb-0">Even the all-powerful Pointing has no control about the blind texts.</p>
+						</div>
+					</div>
+
+					<div class="feature-1 ">
+						<div class="align-self-center">
+							<span class="flaticon-restaurant display-4 text-primary"></span>
+							<h3>Restaurants & Cafe</h3>
+							<p class="mb-0">Even the all-powerful Pointing has no control about the blind texts.</p>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-6 col-sm-6 col-lg-4 feature-1-wrap d-md-flex flex-md-column order-lg-3">
+
+					<div class="feature-1 d-md-flex">
+						<div class="align-self-center">
+							<span class="flaticon-mail display-4 text-primary"></span>
+							<h3>Easy to Connect</h3>
+							<p class="mb-0">Even the all-powerful Pointing has no control about the blind texts.</p>
+						</div>
+					</div>
+
+					<div class="feature-1 d-md-flex">
+						<div class="align-self-center">
+							<span class="flaticon-phone-call display-4 text-primary"></span>
+							<h3>24/7 Support</h3>
+							<p class="mb-0">Even the all-powerful Pointing has no control about the blind texts.</p>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div> *@
+
+	@* <div class="untree_co-section count-numbers py-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="9313">0</span>
+						</div>
+						<span class="caption">No. of Travels</span>
+					</div>
+				</div>
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="8492">0</span>
+						</div>
+						<span class="caption">No. of Clients</span>
+					</div>
+				</div>
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="100">0</span>
+						</div>
+						<span class="caption">No. of Employees</span>
+					</div>
+				</div>
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="120">0</span>
+						</div>
+						<span class="caption">No. of Countries</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> *@
+
+	<div style="background-color:#ecf0f5;padding-top:50px;padding-bottom:50px">
+		@RenderBody()
+	</div>
+
+
+	@* <div class="py-5 cta-section">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-md-12">
+					<h2 class="mb-2 text-white">Lets you Explore the Best. Contact Us Now</h2>
+					<p class="mb-4 lead text-white text-white-opacity">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, fugit?</p>
+					<p class="mb-0"><a href="booking.html" class="btn btn-outline-white text-white btn-md font-weight-bold">Get in touch</a></p>
+				</div>
+			</div>
+		</div>
+	</div> *@
+
+	<div class="site-footer">
+		<div class="inner first">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">Về Tour</h3>
+							<p>Xa thật xa, phía sau những ngọn núi từ ngữ, cách xa các quốc gia Vokalia và Consonantia, có những văn bản mù đang sinh sống.</p>
+						</div>
+						<div class="widget">
+						<ul class="list-unstyled social">
+						<li><a href="#"><span class="icon-twitter"></span></a></li>
+						<li><a href="#"><span class="icon-instagram"></span></a></li>
+						<li><a href="#"><span class="icon-facebook"></span></a></li>
+						<li><a href="#"><span class="icon-linkedin"></span></a></li>
+						<li><a href="#"><span class="icon-dribbble"></span></a></li>
+						<li><a href="#"><span class="icon-pinterest"></span></a></li>
+						<li><a href="#"><span class="icon-apple"></span></a></li>
+						<li><a href="#"><span class="icon-google"></span></a></li>
+						</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2 pl-lg-5">
+						<div class="widget">
+							<h3 class="heading">Trang</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">Giới thiệu</a></li>
+								<li><a href="#">Liên hệ</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2">
+						<div class="widget">
+							<h3 class="heading">Tài nguyên</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">Giới thiệu</a></li>
+								<li><a href="#">Liên hệ</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">Liên hệ</h3>
+							<ul class="list-unstyled quick-info links">
+								<li class="email"><a href="#">mail@example.com</a></li>
+								<li class="phone"><a href="#">+1 222 212 3819</a></li>
+								<li class="address"><a href="#">43 Raymouth Rd. Baltemoer, London 3910</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="inner dark">
+		<div class="container">
+		<div class="row text-center">
+		<div class="col-md-8 mb-3 mb-md-0 mx-auto">
+		<p>
+		Bản quyền &copy;<script>document.write(new Date().getFullYear());</script>. Mọi quyền được bảo lưu. &mdash; Thiết kế với tình yêu bởi <a href="https://untree.co" class="link-highlight">Untree.co</a> <!-- Thông tin giấy phép: https://untree.co/license/ -->Phân phối bởi <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+		</p>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
+
+	<div id="overlayer"></div>
+	<div class="loader">
+		<div class="spinner-border" role="status">
+			<span class="sr-only">Đang tải...</span>
+		</div>
+	</div>
+
+
+	<script src="~/js/typed.js"></script>
+	<script src="~/js/aos.js"></script>
+	<script src="~/js/jquery.fancybox.min.js"></script>
+	<script src="~/js/jquery.animatenumber.min.js"></script>
+	<script src="~/js/moment.min.js"></script>
+	<script src="~/js/custom.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+	<script src="~/js/jquery.waypoints.min.js"></script>
+	<script src="~/js/owl.carousel.min.js"></script>
+	<script src="~/js/jquery-3.4.1.min.js"></script>
+	<script src="~/js/popper.min.js"></script>
+	<script src="~/js/daterangepicker.js"></script>
+	<script src="~/js/jarallax.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+	<script src="~/js/chat-realtime-user.js"></script>
+	<link href="~/css/chat-user.css" rel="stylesheet" />
+	<script>
+		$(function () {
+			var slides = $('.slides'),
+				images = slides.find('img');
+
+			images.each(function (i) {
+				$(this).attr('data-id', i + 1);
+			})
+
+			var typed = new Typed('.typed-words', {
+				strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+				typeSpeed: 80,
+				backSpeed: 80,
+				backDelay: 4000,
+				startDelay: 1000,
+				loop: true,
+				showCursor: true,
+				preStringTyped: (arrayPos, self) => {
+					arrayPos++;
+					console.log(arrayPos);
+					$('.slides img').removeClass('active');
+					$('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+				}
+
+			});
+		})
+	</script>
+	<div class="chat" onclick="toggleChat()">
+		<span style="color: white">
+			<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+				<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+			</svg>
+		</span>  <!-- Nút chat -->
+	</div>
+	<div id="chatWindow" class="chat-window">
+		<div class="chat-header">
+			<span>Nhắn tin với Admin</span>
+			<button onclick="toggleChat()" class="close-btn">×</button>
+		</div>
+		<div class="chat-body">
+			<ul id="messagesList"></ul>
+		</div>
+		<div class="chat-footer">
+			<input id="messageInput" type="text" placeholder="Gõ tin nhắn" />
+			<button id="sendButton" onclick="sendMessage()">Gửi</button>
+		</div>
+	</div>
+	<script>
+		function closePopup(popupId) {
+			var popup = document.getElementById(popupId);
+			popup.style.display = "none";
+		}
+
+		// Tự động đóng popup sau 3 giây
+		window.onload = function () {
+			if (document.getElementById('popup-success') !== null) {
+				setTimeout(function () {
+					closePopup('popup-success');
+				}, 3000);
+			}
+			if (document.getElementById('popup-error') !== null) {
+				setTimeout(function () {
+					closePopup('popup-error');
+				}, 3000);
+			}
+		};
+	</script>
+	@RenderSection("scripts", required: false)
+
+	@await Html.PartialAsync("_ChatBotPartial")
+</body>
+
+</html>
+
+

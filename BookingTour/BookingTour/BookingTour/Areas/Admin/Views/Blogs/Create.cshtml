@@ -1,0 +1,69 @@
+﻿@model BookingTour.Models.Blog
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<h2 style="font-size: 24px; color: #333;">Thêm Blog Mới</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data" style="margin-top: 20px;">
+    <div style="margin-bottom: 15px;">
+        <label for="Title" style="font-weight: bold;">Tiêu đề:</label>
+        <input asp-for="Title" type="text" id="Title" style="width: 100%; padding: 8px;">
+        <span asp-validation-for="Title" style="color:red;"></span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="Content" style="font-weight: bold;">Nội dung:</label>
+        <textarea asp-for="Content" id="Content" rows="5" style="width: 100%; padding: 8px;"></textarea>
+        <span asp-validation-for="Content" style="color:red;"></span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="ThumbnailUrl" style="font-weight: bold;">Ảnh thu nhỏ:</label>
+        <input asp-for="ThumbnailUrl" type="file" id="ThumbnailUrl" style="width: 100%; padding: 8px;">
+        <span asp-validation-for="ThumbnailUrl" style="color:red;"></span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="ImageUrl" style="font-weight: bold;">Ảnh chính:</label>
+        <input asp-for="ImageUrl" type="file" id="ImageUrl" style="width: 100%; padding: 8px;">
+        <span asp-validation-for="ImageUrl" style="color:red;"></span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="Tags" style="font-weight: bold;">Tags:</label>
+        <input asp-for="Tags" type="text" id="Tags" style="width: 100%; padding: 8px;">
+        <span asp-validation-for="Tags" style="color:red;"></span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+     @*    <label for="Status" style="font-weight: bold;">Trạng thái:</label> *@
+        <select asp-for="Status" style="width: 100%; padding: 8px;">
+            <option value="Active">Kích hoạt</option>
+            <option value="Inactive">Không kích hoạt</option>
+        </select>
+        <span asp-validation-for="Status" style="color:red;"></span>
+    </div>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none;">Thêm Blog</button>
+</form>
+
+<!-- Validation Summary -->
+<div>
+    <ul>
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <li style="color: red">@error.ErrorMessage</li>
+        }
+    </ul>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

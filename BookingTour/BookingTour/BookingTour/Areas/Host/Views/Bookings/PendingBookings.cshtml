@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BookingTour.Models.Booking>
+@{
+ 
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+<h2>DANH SÁCH YÊU CẦU ĐẶT CHỖ</h2>
+
+            <form method="get" action="@Url.Action("PendingBookings")" style="position: absolute; top: 10px; right: 10px; ">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit"
+                        style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <div class="body table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                    <div class="col-sm-6" style="width:20%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                            <thead class="thead-dark">
+        <tr>
+            <th>Khách hàng</th>
+            <th>Tour</th>
+            <th>Khách sạn</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                                        <td>@ViewBag.UserFullNames[booking.Id]</td>
+                <td>@booking.IdTourNavigation.Name</td>
+                <td>@booking.IdHotelNavigation.Name</td>
+                <td>@booking.IdStatusNavigation.StatusName</td>
+                <td>
+                    @if (booking.IdStatus == 4) // Nếu trạng thái là "Đang chờ"
+                    {
+                        <a href="@Url.Action("ApproveBooking", "Bookings", new { id = booking.IdBooking })" class="btn btn-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+                            </svg>
+                        </a>
+                        <a href="@Url.Action("RejectBooking", "Bookings", new { id = booking.IdBooking })" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <a href="?page=@i&searchTerm=@ViewBag.SearchTerm">@i</a>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

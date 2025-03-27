@@ -1,0 +1,473 @@
+﻿<!-- /*
+* Template Name: Tour
+* Template Author: Untree.co
+* Tempalte URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+@model BookingTour.Models.SearchTourViewModel
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="favicon.png">
+
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap4" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap4" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="~/css/bootstrap.min.css">
+	<link rel="stylesheet" href="~/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+	<link rel="stylesheet" href="~/fonts/icomoon/style.css">
+	<link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+	<link rel="stylesheet" href="~/css/daterangepicker.css">
+	<link rel="stylesheet" href="~/css/aos.css">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/user/logo.css" rel="stylesheet" />
+    <link href="~/css/chat-user.css" rel="stylesheet" />
+	<title>Tour Free Bootstrap Template for Travel Agency by Untree.co</title>
+</head>
+<style>
+	.popular-destinations-section {
+		margin-top: 20px;
+		padding: 15px;
+		background-color: #f9f9f9;
+		border-radius: 5px;
+	}
+</style>
+<body>
+	<!-- Popup -->
+	<div id="customPopup" class="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.5); width: 300px; padding: 20px; border-radius: 8px; text-align: center; color: white; z-index: 1000;">
+		<div class="popup-content">
+			<p id="popupMessage" style="margin-bottom: 20px;"></p>
+			<!-- Nút đóng (thay từ span thành a) -->
+			<a href="javascript:void(0);" id="closeButton" style="position: absolute; top: 5px; right: 5px; color: white; font-size: 18px; font-weight: bold; text-decoration: none; cursor: pointer;">X</a>
+		</div>
+	</div>
+	@{
+		var successMessage = TempData["SuccessMessage"];
+		var errorMessage = TempData["ErrorMessage"];
+	}
+
+	@if (successMessage != null)
+	{
+		<div id="popup-success" style="position: fixed; top: 10px; right: 20px; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; z-index: 9999; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: block;">
+			<span class="closebtn" onclick="closePopup('popup-success')" style="font-size: 20px; color: #aaa; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</span>
+			@successMessage
+		</div>
+	}
+
+	@if (errorMessage != null)
+	{
+		<div id="popup-error" style="position: fixed; top: 10px; right: 20px; background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 5px; z-index: 9999; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: block;">
+			<span class="closebtn" onclick="closePopup('popup-error')" style="font-size: 20px; color: #aaa; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</span>
+			@errorMessage
+		</div>
+	}
+
+	<!-- JavaScript -->
+	<script>
+		// Hàm hiển thị popup
+		function showPopup(message) {
+			const popup = document.getElementById("customPopup");
+			const popupMessage = document.getElementById("popupMessage");
+			popupMessage.innerText = message;
+			popup.style.display = "flex";  // Hiển thị popup
+		}
+
+		// Hàm đóng popup
+		function closePopup() {
+			const popup = document.getElementById("customPopup");
+			popup.style.display = "none";  // Ẩn popup
+		}
+
+		// Gắn sự kiện click vào nút đóng
+		document.addEventListener("DOMContentLoaded", function () {
+			const closeButton = document.getElementById("closeButton");
+			closeButton.addEventListener("click", closePopup);
+		});
+
+	</script>
+
+	<!-- Style cho class hidden -->
+	<style>
+		.hidden {
+			display: none;
+		}
+	</style>
+	<div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+
+	<nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				
+				<div class="logoes">
+					<span class="plane-icon">✈️</span>
+					<div class="logo-text">VIU<span class="highlight">VIU</span></div>
+				</div>
+				<ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+					<li class="active"><a href="@Url.Action("index", "Tours")">Trang chủ</a></li>
+					<li class="active"><a href="@Url.Action("TourList", "Tours")">Tour</a></li>
+					<li class="active"><a href="@Url.Action("index", "Hotels")">Khách sạn</a></li>
+					<li class="active"><a href="@Url.Action("Bloglist", "Blogs")">Bài viết</a></li>
+					
+						<partial name="_LoginPartial" />
+					
+				</ul>
+
+				<a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+
+			</div>
+		</div>
+	</nav>
+	<div class="hero">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-7">
+					<div class="intro-wrap">
+						<h1 class="mb-5"><span class="d-block">Trải nghiệm kỳ nghĩ tuyệt vời</span> Ở <span class="typed-words"></span></h1>
+
+						<div class="row">	
+							<div class="col-12">
+								<form asp-controller="Tours" asp-action="Search" method="get" class="form-inline">
+									<div class="form-group" style="margin:5px">
+										<select name="destinationAddress" class="form-control custom-select">
+											<option value="">Chọn địa chỉ điểm đến</option>
+											@if (Model.Destinations != null )
+											{
+												foreach (var destination in Model.Destinations)
+												{
+													<option value="@destination.Address">@destination.Address</option>
+												}
+											}
+											else
+											{
+												<option value="" disabled>Không có địa điểm nào khả dụng</option>
+											}
+										</select>
+									</div>
+
+									<div class="form-group" style="margin:10px">
+										<input type="date" name="startDate" class="form-control" placeholder="Start Date" />
+									</div>
+
+									<div class="form-group" style="margin:10px">
+										<select name="tourType" class="form-control custom-select">
+											<option value="">Chọn loại tour</option>
+											@if (Model.TourTypes != null)
+											{
+												foreach (var type in Model.TourTypes)
+												{
+													<option value="@type.Name">@type.Name</option>
+												}
+											}
+											else
+											{
+												<option value="" disabled>Không có loại tour nào khả dụng</option>
+											}
+										</select>
+									</div>
+
+									<button type="submit" class="btn btn-primary" style="margin:10px">Tìm kiếm</button>
+								</form>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5">
+					<div class="slides">
+						<img src="~/images/hero-slider-1.jpg" alt="Image" class="img-fluid active">
+						<img src="~/images/hero-slider-2.jpg" alt="Image" class="img-fluid">
+						<img src="~/images/hero-slider-3.jpg" alt="Image" class="img-fluid">
+						<img src="~/images/hero-slider-4.jpg" alt="Image" class="img-fluid">
+						<img src="~/images/hero-slider-5.jpg" alt="Image" class="img-fluid">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="untree_co-section count-numbers py-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="9313"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">9.313</font></font></span>
+						</div>
+						<span class="caption"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Số chuyến đi</font></font></span>
+					</div>
+				</div>
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="8492"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8,492</font></font></span>
+						</div>
+						<span class="caption"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Số lượng khách hàng</font></font></span>
+					</div>
+				</div>
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100</font></font></span>
+						</div>
+						<span class="caption"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Số lượng nhân viên</font></font></span>
+					</div>
+				</div>
+				<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+					<div class="counter-wrap">
+						<div class="counter">
+							<span class="" data-number="120"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">120</font></font></span>
+						</div>
+						<span class="caption"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Số lượng quốc gia</font></font></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@* 	<div class="untree_co-section">
+		<div class="container">
+			<aside class="popular-destinations-section">
+				@await Html.PartialAsync("_PopularDestinationsPartial", (IEnumerable<BookingTour.Models.Tour>)ViewBag.PopularTours)
+
+			</aside>
+
+
+		</div>
+	</div> *@
+
+	<div>	@RenderBody()</div>
+	<div class="untree_co-section">
+		<div class="container">
+			<div class="row justify-content-between align-items-center">
+
+				<div class="col-lg-6">
+					<figure class="img-play-video">
+						<a id="play-video" class="video-play-button" href="https://www.youtube.com/watch?v=mwtbEGNABWU" data-fancybox>
+							<span></span>
+						</a>
+						<img src="images/hero-slider-2.jpg" alt="Hình ảnh" class="img-fluid rounded-20">
+					</figure>
+				</div>
+
+				<div class="col-lg-5">
+					<h2 class="section-title text-left mb-4">Xem Video Tour</h2>
+					<p>Xa xôi, sau những dãy núi từ những quốc gia Vokalia và Consonantia, có những văn bản mù. Chúng sống tách biệt ở Bookmarksgrove ngay tại bờ biển của Semantics, một đại dương ngôn ngữ rộng lớn.</p>
+
+					<p class="mb-4">Một con sông nhỏ tên Duden chảy qua nơi này và cung cấp cho họ những thứ cần thiết. Đây là một quốc gia như thiên đường, nơi mà những phần câu đã nướng chảy vào miệng bạn.</p>
+
+					<ul class="list-unstyled two-col clearfix">
+						<li>Hoạt động giải trí ngoài trời</li>
+						<li>Hãng hàng không</li>
+						<li>Thuê xe</li>
+						<li>Du thuyền</li>
+						<li>Khách sạn</li>
+						<li>Đường sắt</li>
+						<li>Bảo hiểm du lịch</li>
+						<li>Tour trọn gói</li>
+						<li>Bảo hiểm</li>
+						<li>Sách hướng dẫn</li>
+					</ul>
+
+					<p><a href="#" class="btn btn-primary">Bắt đầu ngay</a></p>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="py-5 cta-section">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-md-12">
+					<h2 class="mb-2 text-white">Khám phá những điều tuyệt vời. Liên hệ với chúng tôi ngay</h2>
+				
+					<p class="mb-0"><a href="booking.html" class="btn btn-outline-white text-white btn-md font-weight-bold">Liên hệ ngay</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="site-footer">
+		<div class="inner first">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">Giới thiệu về Tour</h3>
+							<p>Xa xôi, sau những dãy núi từ những quốc gia Vokalia và Consonantia, có những văn bản mù. Chúng sống tách biệt ở Bookmarksgrove ngay tại bờ biển của Semantics, một đại dương ngôn ngữ rộng lớn.</p>
+						</div>
+						<div class="widget">
+							<ul class="list-unstyled social">
+								<li><a href="#"><span class="icon-twitter"></span></a></li>
+								<li><a href="#"><span class="icon-instagram"></span></a></li>
+								<li><a href="#"><span class="icon-facebook"></span></a></li>
+								<li><a href="#"><span class="icon-linkedin"></span></a></li>
+								<li><a href="#"><span class="icon-dribbble"></span></a></li>
+								<li><a href="#"><span class="icon-pinterest"></span></a></li>
+								<li><a href="#"><span class="icon-apple"></span></a></li>
+								<li><a href="#"><span class="icon-google"></span></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2 pl-lg-5">
+						<div class="widget">
+							<h3 class="heading">Trang</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">Giới thiệu</a></li>
+								<li><a href="#">Liên hệ</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2">
+						<div class="widget">
+							<h3 class="heading">Tài nguyên</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">Giới thiệu</a></li>
+								<li><a href="#">Liên hệ</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">Liên hệ</h3>
+							<ul class="list-unstyled quick-info links">
+								<li class="email"><a href="#">tranthebaobt8@gmail.com</a></li>
+								<li class="phone"><a href="#">+84 387 338 874</a></li>
+								<li class="address"><a href="#">57 Linh Trung, Thủ Đức, TP.HCM</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="inner dark">
+			<div class="container">
+				<div class="row text-center">
+					<div class="col-md-8 mb-3 mb-md-0 mx-auto">
+						<p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. Bảo lưu tất cả quyền. &mdash; Thiết kế với tình yêu bởi <a href="https://untree.co" class="link-highlight">Untree.co</a> <!-- Thông tin bản quyền: https://untree.co/license/ -->Phân phối bởi <a href="https://themewagon.com" target="_blank">ThemeWagon</a></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="overlayer"></div>
+	<div class="loader">
+		<div class="spinner-border" role="status">
+			<span class="sr-only">Đang tải...</span>
+		</div>
+	</div>
+	
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+	<script src="~/js/chat-realtime-user.js"></script>
+	<script src="~/js/jquery-3.4.1.min.js"></script>
+	<script src="~/js/popper.min.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+	<script src="~/js/owl.carousel.min.js"></script>
+	<script src="~/js/jquery.animateNumber.min.js"></script>
+	<script src="~/js/jquery.waypoints.min.js"></script>
+	<script src="~/js/jquery.fancybox.min.js"></script>
+	<script src="~/js/aos.js"></script>
+	<script src="~/js/moment.min.js"></script>
+	<script src="~/js/daterangepicker.js"></script>
+
+	<script src="js/typed.js"></script>
+
+	<script>
+		$(function() {
+			var slides = $('.slides'),
+			images = slides.find('img');
+
+			images.each(function(i) {
+				$(this).attr('data-id', i + 1);
+			})
+
+			var typed = new Typed('.typed-words', {
+				strings: ["Đà lạt."," Huế."," Hà Nội.", " Đà Nẵng.", " Bến Tre."],
+				typeSpeed: 80,
+				backSpeed: 80,
+				backDelay: 4000,
+				startDelay: 1000,
+				loop: true,
+				showCursor: true,
+				preStringTyped: (arrayPos, self) => {
+					arrayPos++;
+					console.log(arrayPos);
+					$('.slides img').removeClass('active');
+					$('.slides img[data-id="'+arrayPos+'"]').addClass('active');
+				}
+
+			});
+		})
+	</script>
+	@RenderSection("scripts", required: false)
+	<div class="chat" onclick="toggleChat()">
+		<span style="color: white">
+			<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+				<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+			</svg>
+		</span>  <!-- Nút chat -->
+	</div>
+	<div id="chatWindow" class="chat-window">
+		<div class="chat-header">
+			<span>Nhắn tin với Admin</span>
+			<button onclick="toggleChat()" class="close-btn">×</button>
+		</div>
+		<div class="chat-body">
+			<ul id="messagesList"></ul>
+		</div>
+		<div class="chat-footer">
+			<input id="messageInput" type="text" placeholder="Gõ tin nhắn" />
+			<button id="sendButton" onclick="sendMessage()">Gửi</button>
+		</div>
+	</div>
+	<script>
+		function closePopup(popupId) {
+			var popup = document.getElementById(popupId);
+			popup.style.display = "none";
+		}
+
+		// Tự động đóng popup sau 3 giây
+		window.onload = function () {
+			if (document.getElementById('popup-success') !== null) {
+				setTimeout(function () {
+					closePopup('popup-success');
+				}, 3000);
+			}
+			if (document.getElementById('popup-error') !== null) {
+				setTimeout(function () {
+					closePopup('popup-error');
+				}, 3000);
+			}
+		};
+	</script>
+	@await Html.PartialAsync("_ChatBotPartial")
+</body>
+
+</html>
+

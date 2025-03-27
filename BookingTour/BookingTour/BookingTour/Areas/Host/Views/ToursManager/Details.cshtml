@@ -1,0 +1,206 @@
+﻿@model BookingTour.Models.Tour
+
+@{
+    Layout = "_LayoutHost"; // Sử dụng layout admin chung
+}
+@{
+    var imagesList = Model.images.ToList(); // Chuyển đổi ICollection thành List
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Chi Tiết Tour</title>
+    <style>
+        .tour-details-container {
+            max-width: 100%; /* Tăng chiều rộng tối đa */
+            margin: 0 auto;
+            padding: 30px; /* Tăng padding để tạo không gian bên trong */
+            background-color: #ecf0f5;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex; /* Sử dụng Flexbox để tạo hai cột */
+        }
+
+        .tour-info {
+            flex: 2; /* Cột trái chiếm 2 phần */
+            padding-right: 20px; /* Khoảng cách giữa hai cột */
+        }
+
+        .tour-side-info {
+            flex: 1; /* Cột phải chiếm 1 phần */
+            background-color: #f9f9f9; /* Nền màu khác để phân biệt */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tour-image img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+
+            .info-item dt {
+                font-weight: bold;
+                color: #333;
+            }
+
+            .info-item dd {
+                margin-bottom: 0;
+            }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.8; /* Giảm độ mờ khi hover */
+        }
+
+        .tourDetailheadLine {
+            padding: 10px 0;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #3f3b3b;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tour-details-container">
+
+        <div class="tour-info">
+            <h1><dd>@Html.DisplayFor(model => model.Name)</dd></h1>
+            <hr />
+
+            <div class="tour-image">
+              
+
+                @if (imagesList != null && imagesList.Any())
+                {
+                    <div class="body">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                @for (int i = 0; i < imagesList.Count; i++)
+                                {
+                                    <li data-target="#carousel-example-generic" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                                }
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner" role="listbox">
+                                @for (int i = 0; i < imagesList.Count; i++)
+                                {
+                                    var image = imagesList[i]; // Sử dụng imagesList đã chuyển đổi
+                                    <div class="item @(i == 0 ? "active" : "")">
+                                        <img src="~/images/@image.ImageUrl" alt="Image" class="gallery-image" style="width: 300px; height: auto;" />
+
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Controls -->
+                            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có hình ảnh nào cho tour này.</p>
+                }
+
+            </div>
+
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Mô tả</dt>
+                <dd>@Html.DisplayFor(model => model.Description)</dd>
+            </div>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Chương trình Tour</dt>
+                <td>
+                    <span>@Html.DisplayFor(model => model.StartDate, "{0:dd/MM/yyyy}")</span> Đến
+                    <span>@Html.DisplayFor(model => model.EndDate, "{0:dd/MM/yyyy}")</span>
+                </td>
+
+            </div>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Số lượng tối đa</dt>
+                <dd>@Html.DisplayFor(model => model.MaxQuantity) người</dd>
+            </div>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Giá</dt>
+                <dd>@Html.DisplayFor(model => model.Price) VNĐ</dd>
+            </div>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Phê duyệt</dt>
+                <dd>@Html.DisplayFor(model => model.ApprovalStatus)</dd>
+            </div>
+        </div>
+
+        <div class="tour-side-info">
+            <h3>Thông tin bổ sung</h3>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Khách sạn</dt>
+                <dd>@Html.DisplayFor(model => model.IdHotelNavigation.Name)</dd>
+            </div>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Phương tiện</dt>
+                <dd>@Html.DisplayFor(model => model.IdTransNavigation.Name)</dd>
+            </div>
+            <div class="info-item">
+                <dt class="tourDetailheadLine">Loại tour</dt>
+                <dd>@Html.DisplayFor(model => model.IdTypeNavigation.Name)</dd>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+      
+        <a class="btn btn-secondary" asp-action="Index">Quay lại danh sách</a>
+    </div>
+
+</body>
+</html>

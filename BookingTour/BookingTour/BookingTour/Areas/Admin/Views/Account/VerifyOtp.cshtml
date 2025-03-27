@@ -1,0 +1,23 @@
+﻿@model BookingTour.Areas.Admin.Controllers.VerifyOtpViewModel
+
+@{
+    ViewData["Title"] = "Xác minh mã OTP";
+}
+
+<h2>Xác minh mã OTP</h2>
+
+<form method="post" asp-action="VerifyOtp" asp-controller="Account" asp-area="Admin">
+    <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
+    <div class="form-group">
+        <label for="otp">Mã OTP</label>
+        <input type="text" name="Otp" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Xác minh</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary()
+    </div>
+}

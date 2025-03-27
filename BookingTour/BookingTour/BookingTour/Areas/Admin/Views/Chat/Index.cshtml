@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "AdminChat";
+    Layout = "_LayoutAdmin";
+}
+<div class="admin-chat-container">
+    <!-- Chat List -->
+    <div class="chat-list">
+        <h2 class="py-3 text-center"></h2>
+        <ul id="userChatList">
+        
+        </ul>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window">
+        <div class="chat-header p-3">
+            <span class="p-3" id="chatWithUser"></span>
+        </div>
+        <div class="chat-body">
+            <ul id="messagesList"></ul>
+        </div>
+        <div class="chat-footer">
+            <input id="messageInput" type="text" placeholder="Enter your message" />
+            <button id="sendButton" onclick="sendMessageToUser()">Send</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,374 @@
+﻿@model BookingTour.Models.UserProfileViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutUser" ;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+    <title>Tour Free Bootstrap Template for Travel Agency by Untree.co</title>
+</head>
+
+
+<div class="container">
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-2" style="background-color: lightblue; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <!-- User Information (Không thể chỉnh sửa) -->
+       
+        <div class="form-group" style="margin-bottom: 15px;">
+            <div class="avatar-wrapper" style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin-bottom: 15px;  text-align: center;margin-left:0px">
+                <img src="@Model.AvatarUrl" alt="Avatar" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+      
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+              
+            </label>
+            <p style="color:black; font-size: 20px;text-align:center">   @Model.fullname
+            </p>
+        </div>
+        <p style="border-bottom: 1px solid #ccc; margin: 10px 0;"></p>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+                
+            </label>
+            <p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                </svg>   @Model.Email
+            </p>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+               
+            </label>
+            <p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-phone-fill" viewBox="0 0 16 16">
+                    <path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0" />
+                </svg>   @Model.PhoneNumber
+            </p>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+              
+            </label>
+            <p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
+                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                </svg>   @Model.Address
+            </p>
+        </div>
+
+        <p style="border-bottom: 1px solid #ccc; margin: 10px 0;"></p>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+                <a href="javascript:void(0);" id="voucherBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                        <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
+                        <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
+                    </svg> Voucher của tôi
+                </a>
+            </label>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+                <a href="javascript:void(0);" id="thongtin">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                    </svg> Thông tin của tôi
+                </a>
+            </label>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="text-black" style="display: block;">
+                <a href="javascript:void(0);" id="favorite">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane" viewBox="0 0 16 16">
+                        <path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849m.894.448C7.111 2.02 7 2.569 7 3v4a.5.5 0 0 1-.276.447l-5.448 2.724a.5.5 0 0 0-.276.447v.792l5.418-.903a.5.5 0 0 1 .575.41l.5 3a.5.5 0 0 1-.14.437L6.708 15h2.586l-.647-.646a.5.5 0 0 1-.14-.436l.5-3a.5.5 0 0 1 .576-.411L15 11.41v-.792a.5.5 0 0 0-.276-.447L9.276 7.447A.5.5 0 0 1 9 7V3c0-.432-.11-.979-.322-1.401C8.458 1.159 8.213 1 8 1s-.458.158-.678.599" />
+                    </svg> Tour yêu thích
+                </a>
+            </label>
+        </div>
+    </div>
+
+    <!-- Form Edit Profile (Chỉnh sửa thông tin) -->
+    <div class="col-lg-10" id="personalInfo" style="padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <div class="custom-block aos-init aos-animate" data-aos="fade-up" data-aos-delay="100" style="background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  align-items: flex-start;">
+            <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 15px;">Chỉnh sửa thông tin cá nhân</h2>
+            <form id="editProfileForm" method="post" enctype="multipart/form-data" class="contact-form bg-white" style="padding: 15px;">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label class="text-black" style="display: block;" for="username">Tên đăng nhập</label>
+                    <input type="text" class="form-control" id="username" name="UserName" value="@Model.UserName" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label class="text-black" style="display: block;" for="fullname">Họ tên</label>
+                    <input type="text" class="form-control" id="fullname" name="fullname" value="@Model.fullname" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label class="text-black" style="display: block;" for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="Email" value="@Model.Email" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label class="text-black" style="display: block;" for="phone">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phone" name="PhoneNumber" value="@Model.PhoneNumber" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label class="text-black" style="display: block;" for="address">Địa chỉ</label>
+                    <input type="text" class="form-control" id="address" name="Address" value="@Model.Address" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label class="text-black" style="display: block;" for="avatar">Avatar</label>
+                    <input type="file" class="form-control" id="avatar" name="AvatarFile" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="background-color: grey; border-color: #007bff; color: #fff; padding: 10px 15px; border-radius: 5px; width: 100%;">Lưu</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-10" id="voucherList" style="padding: 20px; display: none; background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 15px;">Danh sách Voucher</h2>
+      
+            <!-- Replace with dynamic content from your promotions -->
+        @if (Model.Promotions != null && Model.Promotions.Any())
+        {
+            <div class="card-container" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start; padding: 10px;">
+                @foreach (var promo in Model.Promotions)
+                {
+                    <div class="card" style="display: flex; flex-direction: row; width: calc(25% - 15px); border: 1px solid #ddd; border-radius: 10px; padding: 10px; box-sizing: border-box; background-color: #fff;">
+                        <!-- Phần hình ảnh bên trái -->
+                        <div class="card-image" style="flex-shrink: 0; padding-right: 10px;">
+                            <img src="~/images/th (9).jpg" alt="@promo.Name" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                        </div>
+
+                        <!-- Phần thông tin bên phải -->
+                        <div class="card-info" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                            <span style="font-size: 14px; color: #333; font-weight: bold;">@promo.Name</span>
+                            <span style="font-size: 12px; color: #888; margin-left: 5px;">- @promo.DiscountAmount% Off</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>Bạn không có voucher nào.</p>
+        }
+
+        
+    </div>
+    <div class="col-lg-10" id="tour" style="padding: 20px; display: none; background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 15px;">Danh sách Tour Yêu Thích</h2>
+
+        <!-- Kiểm tra nếu danh sách Tour yêu thích có dữ liệu -->
+        @if (Model.FavoriteTours != null && Model.FavoriteTours.Any())
+        {
+            <div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                @foreach (var tour in Model.FavoriteTours)
+                {
+                        <div class="card" style="flex: 1 1 calc(33.333% - 20px); border: 1px solid #ddd; border-radius: 10px; padding: 10px; background-color: #fff; box-sizing: border-box; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); position: relative;">
+
+                            <!-- Nút xóa nằm trên cùng bên phải của card -->
+                            <form asp-action="Unfavorite" asp-controller="Comments" method="post" style="position: absolute; ; right: 10px; z-index: 2;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="idTour" value="@tour.IdTour" />
+                                <button type="submit" class="btn-close" style="padding: 0; font-size: 18px; border: none; background: white; color: black; width: 30px; height: 30px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); cursor: pointer; display: flex; justify-content: center; align-items: center;">
+                                    X
+                                </button>
+
+                            </form>
+
+                            <!-- Hình ảnh tour -->
+                            <a href="@Url.Action("Details", "Tours", new { id = tour.IdTour })" class="d-block" style="position: relative;margin-top:35px;">
+                                <img src="@Url.Content("~/images/" + tour.Image)" alt="@tour.Name" style="width: 100%; height: 200px; object-fit: cover; border-bottom: 2px solid #ddd;">
+                            </a>
+
+                            <!-- Thông tin tour -->
+                            <div style="padding: 15px;">
+                                <h3 style="font-size: 1.2em; font-weight: bold; color: #333; margin: 0; text-transform: uppercase;">@tour.Name</h3>
+                                <p style="margin: 5px 0; font-size: 0.9em; color: #888;">8.4 Rất tốt | 15 đánh giá</p>
+
+                                <div style="font-size: 0.9em; color: #007bff; margin: 10px 0;">
+                                    <!-- Có thể thêm các thông tin khác ở đây -->
+                                </div>
+                            </div>
+
+                            <!-- Giá tour -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #f9f9f9; border-top: 1px solid #ddd;">
+                                <div style="font-size: 0.9em; color: #d9534f; font-weight: bold;">
+                                    4 khách đặt trong 24h qua
+                                </div>
+                                <div style="color: #ff9800; font-size: 1.2em; font-weight: bold;">
+                                    @tour.Price VNĐ
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                }
+            </div>
+        }
+        else
+        {
+            <p>Bạn chưa có tour yêu thích nào.</p>
+        }
+    </div>
+
+
+
+
+</div>
+
+
+   @*  <div class="col-lg-4">
+        <div class="custom-block aos-init aos-animate" data-aos="fade-up">
+            <h2 class="section-title">Gallery</h2>
+            <div class="row gutter-v2 gallery">
+                @foreach (var image in Model.Ga)
+                {
+                    <div class="col-4">
+                        <a href="@image.Url" class="gal-item" data-fancybox="gal">
+                            <img src="@image.Url" alt="Image" class="img-fluid">
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="custom-block aos-init aos-animate" data-aos="fade-up">
+            <h2 class="section-title">Video</h2>
+            <a href="@Model.VideoUrl" data-fancybox class="video-wrap">
+                <span class="play-wrap"><span class="icon-play"></span></span>
+                <img src="@Model.VideoThumbnailUrl" alt="Video Thumbnail" class="img-fluid rounded">
+            </a>
+        </div>
+    </div> *@
+</div>
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<script src="~/js/typed.js"></script>
+<!-- Đoạn script để xử lý AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#editProfileForm').on('submit', function (e) {
+            e.preventDefault(); // Ngăn chặn gửi form mặc định
+
+            var formData = new FormData(this); // Tạo FormData từ form
+
+            $.ajax({
+                url: '@Url.Action("EditProfile", "Profile")', // URL của action
+                type: 'POST',
+                data: formData,
+                processData: false, // Không xử lý dữ liệu
+                contentType: false, // Không thiết lập Content-Type
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // Hiển thị thông báo thành công
+                    } else {
+                        alert(response.message); // Hiển thị thông báo lỗi
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    document.getElementById("voucherBtn").addEventListener("click", function () {
+        // Ẩn thông tin cá nhân
+        document.getElementById("personalInfo").style.display = "none";
+        document.getElementById("tour").style.display = "none";
+        // Hiển thị danh sách voucher
+        document.getElementById("voucherList").style.display = "block";
+
+    });
+
+    // Khi nhấn vào "Thông tin của tôi"
+    document.getElementById("thongtin").addEventListener("click", function () {
+        // Ẩn danh sách voucher
+        document.getElementById("voucherList").style.display = "none";
+        document.getElementById("tour").style.display = "none";
+        // Hiển thị thông tin cá nhân
+        document.getElementById("personalInfo").style.display = "block";
+    });
+    document.getElementById("favorite").addEventListener("click", function () {
+        // Ẩn danh sách voucher
+        document.getElementById("voucherList").style.display = "none";
+
+        // Hiển thị thông tin cá nhân
+        document.getElementById("personalInfo").style.display = "none";
+        document.getElementById("tour").style.display = "block";
+    });
+</script>
+
+<script>
+    $(function () {
+        var slides = $('.slides'),
+            images = slides.find('img');
+
+        images.each(function (i) {
+            $(this).attr('data-id', i + 1);
+        })
+
+        var typed = new Typed('.typed-words', {
+            strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true,
+            preStringTyped: (arrayPos, self) => {
+                arrayPos++;
+                console.log(arrayPos);
+                $('.slides img').removeClass('active');
+                $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+            }
+
+        });
+    })
+</script>
+
+<script src="~/js/custom.js"></script>
+
+
+</html>

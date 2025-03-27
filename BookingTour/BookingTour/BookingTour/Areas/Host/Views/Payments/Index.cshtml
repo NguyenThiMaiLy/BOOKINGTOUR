@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BookingTour.Models.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRefunded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefundAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefundDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRefunded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefundAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefundDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNavigation.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdPayment">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdPayment">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPayment">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

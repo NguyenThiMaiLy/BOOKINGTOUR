@@ -1,0 +1,207 @@
+﻿/* Cấu hình cho container của admin chat */
+.admin-chat-container {
+    display: flex;
+    height: 90vh; /* Tăng chiều cao của khung chat */
+    border-radius: 20px; /* Bo góc container */
+    overflow: hidden;
+}
+
+/* Danh sách chat (Người dùng) */
+.chat-list {
+    width: 350px; /* Tăng chiều rộng danh sách chat */
+    background-color: #f7f7f7;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
+    overflow-y: auto;
+    border-radius: 20px 0 0 20px; /* Bo góc phần bên trái */
+}
+
+    /* Tiêu đề của chat list */
+    .chat-list h2 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    /* Mỗi item trong chat list */
+    .chat-list li {
+        padding: 12px;
+        cursor: pointer;
+        transition: background 0.3s;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+        /* Hiệu ứng hover cho mỗi người dùng trong danh sách */
+        .chat-list li:hover {
+            background-color: #e6e6e6;
+        }
+
+/* Chat window */
+.chat-window {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    position: relative;
+    border-radius: 0 20px 20px 0; /* Bo góc phần bên phải */
+    padding: 20px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề của cửa sổ chat */
+.chat-header {
+    background: #007bff;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* Nội dung chat */
+.chat-body {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+    /* Các tin nhắn trong chat */
+    .chat-body ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-body li {
+        margin: 10px 0;
+        padding: 12px 16px;
+        border-radius: 12px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+
+        /* Tin nhắn đã gửi */
+        .chat-body li.sent {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+        }
+
+        /* Tin nhắn đã nhận */
+        .chat-body li.received {
+            background-color: #f1f1f1;
+            color: black;
+            align-self: flex-start;
+        }
+
+/* Thời gian của tin nhắn */
+.message-time {
+    display: block;
+    font-size: 0.75em;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.chat-body li.sent .message-time {
+    color: white;
+}
+
+.chat-body li.received .message-time {
+    color: black;
+}
+
+/* Phần footer để gửi tin nhắn */
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+    .chat-footer input[type="text"] {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+
+    /* Nút gửi */
+    .chat-footer button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
+
+        /* Hiệu ứng hover cho nút gửi */
+        .chat-footer button:hover {
+            background-color: #0056b3;
+        }
+
+/* Thông báo */
+.notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 9999;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+    .notification.show {
+        display: block;
+    }
+
+/* Avatar người dùng trong chat */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Đổi màu cho người dùng có tin nhắn mới */
+.chat-list li.new-message {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+/* Style cho toast (thông báo dạng popup) */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ffcc00; /* Màu vàng */
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    z-index: 10000;
+}
+
+    .toast.show {
+        opacity: 1;
+        visibility: visible;
+    }

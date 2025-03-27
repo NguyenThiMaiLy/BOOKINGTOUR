@@ -1,0 +1,167 @@
+﻿@model BookingTour.Models.Invoice // Thay đổi namespace cho phù hợp
+
+@{
+    ViewData["Title"] = "Chi tiết Hóa đơn";
+    Layout = "_LayoutUser";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+
+
+</head>
+<Div class="container"> 
+<div class="container mt-4" style="padding-bottom:20px">
+        <div class="mt-4">
+            <a asp-action="Index" style="width:30px;padding-bottom:600px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+            </a>
+        </div>
+    <h4>Thông tin Hóa đơn</h4>
+    <hr />
+    <form asp-action="Detaillnvoice" method="get">
+        <input type="hidden" name="id" value="@Model.IdInvoice" />
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Mô tả:</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" readonly>@Model.Description</textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tổng Số Tiền:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"
+                       value="@(ViewBag.TotalAfterDiscount != null ? ((decimal)ViewBag.TotalAfterDiscount).ToString("C") : @Model.TotalAmount?.ToString("C"))"
+                       readonly />
+            </div>
+        </div>
+
+        <div class="form-group row">
+          
+            <label class="col-sm-2 col-form-label">Chọn mã giảm giá:</label>
+            <div class="col-sm-10">
+                <select name="selectedPromotionId" class="form-control">
+                    <option value="">Không áp dụng</option>
+                    @foreach (var promo in (List<BookingTour.Models.Promotion>)ViewBag.Promotions)
+                    {
+                        @if (ViewBag.SelectedPromotionId == promo.IdPmt)
+                        {
+                            <!-- Nếu đây là khuyến mãi đã chọn -->
+                            <option value="@promo.IdPmt" selected="selected" style="display: flex; align-items: center; padding: 10px;">
+                                <!-- Hình ảnh bên trái -->
+                                <img src="~/images/th (9).jpg" alt="@promo.Name" style="width: 30px; height: 30px; object-fit: cover; margin-right: 10px; border-radius: 50%;">
+
+                                <!-- Thông tin bên phải -->
+                                <span style="font-size: 14px; color: #333; font-weight: bold;">@promo.Name</span>
+                                <span style="font-size: 12px; color: #888; margin-left: 5px;">- @promo.DiscountAmount% Off</span>
+                            </option>
+                        }
+                        else
+                        {
+                            <!-- Nếu đây là khuyến mãi chưa chọn -->
+                            <option value="@promo.IdPmt" style="display: flex; align-items: center; padding: 10px;">
+                                <!-- Hình ảnh bên trái -->
+                                <img src="~/images/th (9).jpg" alt="@promo.Name" style="width: 30px; height: 30px; object-fit: cover; margin-right: 10px; border-radius: 50%;">
+
+                                <!-- Thông tin bên phải -->
+                                <span style="font-size: 14px; color: #333; font-weight: bold;">@promo.Name</span>
+                                <span style="font-size: 12px; color: #888; margin-left: 5px;">- @promo.DiscountAmount% Off</span>
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+         
+        </div>
+
+        <button style="margin-right:20px" type="submit" class="btn btn-primary">Áp dụng giảm giá</button>
+    @*     <form method="post" asp-action="payment" asp-controller="Payment" style="margin-bottom:30px">
+            <input type="hidden" name="id" value="@Model.IdInvoice" />
+            <input type="hidden" name="total"
+                   value="@(ViewBag.TotalAfterDiscount != null ? (decimal)ViewBag.TotalAfterDiscount : Model.TotalAmount)" />
+
+            <button type="submit" class="btn btn-success mt-2">Thanh toán với VNPAY</button>
+        </form> *@
+    </form>
+
+    <form method="post" asp-action="payment" asp-controller="Payment">
+        <input type="hidden" name="id" value="@Model.IdInvoice" />
+        <input type="hidden" name="total"
+               value="@(ViewBag.TotalAfterDiscount != null ? (decimal)ViewBag.TotalAfterDiscount : Model.TotalAmount)" />
+
+        <button type="submit" class="btn btn-success mt-2">Thanh toán với VNPAY</button>
+    </form>
+
+
+</div>
+</Div>
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<script src="~/js/typed.js"></script>
+
+<script>
+    $(function () {
+        var slides = $('.slides'),
+            images = slides.find('img');
+
+        images.each(function (i) {
+            $(this).attr('data-id', i + 1);
+        })
+
+        var typed = new Typed('.typed-words', {
+            strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true,
+            preStringTyped: (arrayPos, self) => {
+                arrayPos++;
+                console.log(arrayPos);
+                $('.slides img').removeClass('active');
+                $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+            }
+
+        });
+    })
+</script>
+
+<script src="~/js/custom.js"></script>
+
+
+</html>

@@ -1,0 +1,87 @@
+﻿@model BookingTour.Models.Tour
+
+@{
+    Layout = "_LayoutAdmin"; // Sử dụng layout admin chung
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Chi Tiết Tour</title>
+</head>
+<body>
+
+    <div class="tour-details-container" style="max-width: 100%; margin: 0 auto; padding: 30px; background-color: #ecf0f5; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex;">
+
+        <div class="tour-info" style="flex: 2; padding-right: 20px;">
+            <h1 style="font-size: 28px; font-weight: bold; color: #333;"><dd>@Html.DisplayFor(model => model.Name)</dd></h1>
+            <hr />
+
+            <div class="tour-image" style="margin-bottom: 20px;">
+                <img src="@Url.Content("~/images/" + Model.Image)" alt="Ảnh tour" style="width: 100%; border-radius: 8px;" />
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Mô tả</dt>
+                <dd>@Html.DisplayFor(model => model.Description)</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Chương trình Tour</dt>
+                <dd>@Html.DisplayFor(model => model.StartDate, "{0:dd/MM/yyyy}")</dd> Đến <dd>@Html.DisplayFor(model => model.EndDate, "{0:dd/MM/yyyy}")</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Số lượng tối đa</dt>
+                <dd>@Html.DisplayFor(model => model.MaxQuantity) người</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Khách sạn</dt>
+                <dd>@Html.DisplayFor(model => model.IdHotelNavigation.Name)</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Phương tiện</dt>
+                <dd>@Html.DisplayFor(model => model.IdTransNavigation.Name)</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Loại tour</dt>
+                <dd>@Html.DisplayFor(model => model.IdTypeNavigation.Name)</dd>
+            </div>
+        </div>
+
+        <div class="tour-side-info" style="flex: 1; background-color: #f9f9f9; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <h3 style="font-size: 20px; font-weight: bold; color: #333;">Thông tin bổ sung</h3>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Khách sạn</dt>
+                <dd>@Html.DisplayFor(model => model.IdHotelNavigation.Name)</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Phương tiện</dt>
+                <dd>@Html.DisplayFor(model => model.IdTransNavigation.Name)</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Ngày khởi hành</dt>
+                <dd>@Html.DisplayFor(model => model.StartDate, "{0:dd/MM/yyyy}")</dd>
+            </div>
+
+            <div class="info-item" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 10px; background-color: #fff;">
+                <dt style="font-weight: bold; color: #333; padding-bottom: 5px;">Giá</dt>
+                <dd>@Html.DisplayFor(model => model.Price) VND</dd>
+            </div>
+
+            <div class="action-buttons" style="text-align: center; margin-top: 20px;">
+           @*      <a href="#" class="btn btn-primary" style="padding: 10px 20px; margin: 5px; border-radius: 4px; text-decoration: none; background-color: #007bff; color: #fff;">Đặt Tour</a> *@
+                <a asp-action="Index" class="btn btn-secondary" style="padding: 10px 20px; margin: 5px; border-radius: 4px; text-decoration: none; background-color: #6c757d; color: #fff;">Xem Tour Khác</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

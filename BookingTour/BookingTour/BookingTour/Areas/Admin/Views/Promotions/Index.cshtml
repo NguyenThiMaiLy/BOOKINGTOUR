@@ -1,0 +1,235 @@
+﻿@model IEnumerable<BookingTour.Models.Promotion>
+
+@{
+    ViewData["Title"] = "Danh sách khuyến mãi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2>
+                DANH SÁCH KHUYẾN MÃI
+           
+            </h2>
+            <form method="get" action="@Url.Action("Index")" style="position: absolute; top: 10px; right: 10px; ">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit"
+                        style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <div class="body table-responsive">
+           
+                <a class="btn btn-primary"  asp-action="Create" asp-controller="Promotions" style="margin-bottom:20px;">Tạo khuyến mãi</a>
+            
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên Khuyến mãi</th>
+                
+                      
+                    
+                        <th>Điều kiện áp dụng</th>
+                      
+                     
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var promotion in Model)
+                    {
+                        <tr>
+                            <td>@promotion.Name</td>
+                        
+                          
+                            <td>@promotion.EligibilityCriteria</td>
+                          
+                           <!-- Hiển thị tên tour -->
+                            <td>
+                                <div class="button-group" style=" align-items: center;   gap: 10px; display: flex;">
+                                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#promotionModal"
+                                            onclick="setPromotionDetails(@promotion.IdPmt, '@promotion.Name', '@promotion.Description', '@promotion.StartDate', '@promotion.EndDate', '@promotion.IdHotelNavigation?.Name','@promotion.IdTourNavigation.Name')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-medical" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                                            <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                        </svg>
+                                    </button>
+                                @*     <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#promotionDetailModal" data-id="@promotion.IdPmt">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-medical" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                                            <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                        </svg>
+                                    </a> *@
+
+                                    |
+                                    <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPromotionModal_@promotion.IdPmt">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                        </svg>
+                                    </a>
+                                    <!-- Modal -->
+                                
+
+                                    |
+                                    <form asp-action="DeleteConfirmed" asp-controller="Promotions" method="post" style="margin-bottom: 0; margin-right: 10px;">
+                                        <input type="hidden" asp-for="@promotion.IdPmt" />
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                 @*    <a class="btn btn-danger btn-sm"  asp-action="Delete" asp-route-id="@promotion.IdPmt">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                        </svg>
+                                    </a> *@
+                                </div>
+                            </td>
+                        </tr>
+                        <div class="modal fade" id="editPromotionModal_@promotion.IdPmt" tabindex="-1" role="dialog" aria-labelledby="editPromotionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editPromotionModalLabel">Chỉnh sửa khuyến mãi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form asp-action="Edit1" asp-controller="Promotions" method="post">
+                                        <!-- Hidden field for IdPmt -->
+                                        <input  type="hidden" asp-for="@promotion.IdPmt" />
+
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="promotionName">Tên khuyến mãi</label>
+                                                <input type="text" class="form-control" id="promotionName" asp-for="@promotion.Name" required />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="promotionDiscount">Mức giảm giá</label>
+                                                <input type="number" class="form-control" id="promotionDiscount" asp-for="@promotion.DiscountAmount" required />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="promotionCriteria">Điều kiện áp dụng</label>
+                                                <textarea class="form-control" id="promotionCriteria" asp-for="@promotion.EligibilityCriteria" required></textarea>
+                                            </div>
+
+                                            <!-- Optional: You can add more fields like start date, end date, etc. if needed -->
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </tbody>
+            </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="promotionModal" tabindex="-1" aria-labelledby="promotionModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="promotionModalLabel">Chi tiết Khuyến mãi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <dl class="row">
+                                <dt class="col-sm-3">Tên Khuyến mãi</dt>
+                                <dd class="col-sm-9" id="modalName"></dd>
+                                <dt class="col-sm-3">Mô tả</dt>
+                                <dd class="col-sm-9" id="modalDescription"></dd>
+                                <dt class="col-sm-3">Ngày bắt đầu</dt>
+                                <dd class="col-sm-9" id="modalStartDate"></dd>
+                                <dt class="col-sm-3">Ngày kết thúc</dt>
+                                <dd class="col-sm-9" id="modalEndDate"></dd>
+                                <dt class="col-sm-3">Khách sạn</dt>
+                                <dd class="col-sm-9" id="modalHotelName"></dd>
+                                <dt class="col-sm-3">Tour</dt>
+                                <dd class="col-sm-9" id="modalTourName"></dd>
+                                <!-- Các thông tin khác nếu cần -->
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Phân trang -->
+            <div class="pagination-wrapper">
+                <ul class="pagination">
+                    <li class="paginate_button previous @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">Trước</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="paginate_button @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a href="@Url.Action("Index", new { page = i })">@i</a>
+                        </li>
+                    }
+                    <li class="paginate_button next @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Tiếp theo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+  
+ @*    <script>
+        // Kiểm tra nếu có thông báo từ TempData
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </text>
+        }
+    </script> *@
+    <script>
+        // Mở modal khi nhấn nút "Chỉnh sửa"
+        $(document).ready(function () {
+            $('.btn-edit-promotion').on('click', function () {
+                var promotionId = $(this).data('id'); // Lấy ID khuyến mãi từ data-id
+                var modalId = '#editPromotionModal_' + promotionId; // Tạo ID cho modal tương ứng
+                $(modalId).modal('show'); // Mở modal
+            });
+        });
+    </script>
+    <script>
+        function setPromotionDetails(id, name, description, startDate, endDate, hotelName, tourName) {
+            // Cập nhật thông tin vào modal
+            $('#modalName').text(name);
+            $('#modalDescription').text(description);
+            $('#modalStartDate').text(startDate);
+            $('#modalEndDate').text(endDate);
+            $('#modalHotelName').text(hotelName);
+            $('#modalTourName').text(tourName);
+        }
+    </script>
+
+}

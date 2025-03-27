@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Booking>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+   
+}
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử đặt tour</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="~/css/user/historybooking.css" rel="stylesheet" />
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+</head>
+@using (Html.BeginForm())
+{
+<body>
+    <div class="container py-5">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="text-center mb-4">LỊCH SỬ ĐẶT TOUR CỦA BẠN</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tên Tour</th>
+                            <th scope="col">Ngày Đặt</th>
+                            <th scope="col">Ngày </th>
+                            <th scope="col">Trạng Thái</th>
+                            <th scope="col">Khách Sạn</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 1; // Bắt đầu từ 1
+                        }
+                        @foreach (var tour in Model)
+                        {
+                            if (tour.IdStatusNavigation.IdStatus == 4 || tour.IdStatusNavigation.IdStatus == 1)
+                            {
+                               <tr>
+                                <th scope="row">@index</th> <!-- Dùng biến đếm -->
+                                <td>@tour.IdTourNavigation.Name</td>
+                                <td>@tour.BookingTime?.ToString("yyyy-MM-dd")</td>
+                                <td>@tour.CheckInDate?.ToString("yyyy-MM-dd")</td>
+                                <td>@tour.IdStatusNavigation.StatusName</td>
+                                <td>@tour.IdHotelNavigation.Name</td>
+                                <td>
+
+
+                                    <td>
+                                        <!-- Nút Xem Hóa Đơn -->
+                                        <a class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; margin-bottom: 5px;" href="@Url.Action("ViewInvoice", "Tours", new { id = tour.IdBooking })">Xem Hóa Đơn</a>
+                                    </td>
+                                    <td >
+                                        <!-- Nút Hủy Tour -->
+                       @*                  <a class="btn btn-danger" style="font-size: 12px; padding: 5px 10px;" href="@Url.Action("CancelBooking", "Tours", new { id = tour.IdBooking })">Hủy Tour</a> *@
+                                    </td>
+
+
+                                    
+                                  
+                                </td>
+
+                                </tr>
+                                index++;
+                            }
+                            else
+                            {
+                             
+                            }// Tăng biến đếm lên sau mỗi dòng
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+    <div style="text-align: center; margin-top: 20px;">
+        <nav>
+            <ul style="display: inline-flex; list-style-type: none; padding: 0;">
+                @if (ViewBag.PageNumber > 1)
+                {
+                    <li style="margin-right: 10px;">
+                        <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber - 1, pageSize = ViewBag.PageSize })" style="padding: 8px 16px; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none; font-size: 14px;">Trang trước</a>
+                    </li>
+                }
+
+                @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li style="margin-right: 10px;">
+                        <a href="@Url.Action("Index", new { pageNumber = i, pageSize = ViewBag.PageSize })" class="@(i == ViewBag.PageNumber ? "active" : "")" style="padding: 8px 16px; background-color: @(i == ViewBag.PageNumber ? "#007bff" : "#f8f9fa"); color: @(i == ViewBag.PageNumber ? "white" : "#007bff"); border-radius: 5px; text-decoration: none; font-size: 14px;">@i</a>
+                    </li>
+                }
+
+                @if (ViewBag.PageNumber < ViewBag.TotalPages)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber + 1, pageSize = ViewBag.PageSize })" style="padding: 8px 16px; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none; font-size: 14px;">Trang sau</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+}
+</html>
+

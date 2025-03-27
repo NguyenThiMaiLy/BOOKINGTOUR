@@ -1,0 +1,157 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Thống Kê Đặt Tour";
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+<div class="container">
+    <h2>Thống Kê Đặt Tour</h2>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Doanh Thu và Chi Tiêu Theo Tháng</h2>
+                </div>
+                <div class="body">
+                    <canvas id="bookingStatisticsChart" class="dashboard-flot-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Xếp Hạng Tour Được Đặt Nhiều Nhất</h2>
+                </div>
+                <div class="body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tên Tour</th>
+                                <th>Số Lượt Đặt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tour in Model.TourStats)
+                            {
+                                <tr>
+                                    <td>@tour.TourName</td>
+                                    <td>@tour.TotalRegistrations</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+            <div class="header">
+                <h2>Thống Kê Doanh Thu</h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Hành động</a></li>
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Hành động khác</a></li>
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Một điều gì đó khác</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <canvas id="revenueChart" class="dashboard-donut-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var revenueData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.BookingStats));
+
+        var totalRevenue = revenueData.reduce((sum, d) => sum + d.TotalRevenue, 0);
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: revenueData.map(d => `Tháng ${d.Month.split('-')[1]}`),
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: revenueData.map(d => d.TotalRevenue),
+                    backgroundColor: ['#e91e63', '#00bcd4', '#ff9800', '#009688', '#607d8b'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var value = context.raw;
+                                var percentage = ((value / totalRevenue) * 100).toFixed(2);
+                                return `${context.label}: ${value} VNĐ (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        var bookingCtx = document.getElementById('bookingStatisticsChart').getContext('2d');
+        var bookingData = revenueData;
+
+        var labels = bookingData.map(d => d.Month);
+        var revenueData = bookingData.map(d => d.TotalRevenue);
+        var bookingsData = bookingData.map(d => d.TotalBookings);
+
+        var bookingStatisticsChart = new Chart(bookingCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Doanh Thu',
+                        data: revenueData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số Lượt Đặt',
+                        data: bookingsData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Giá Trị (VNĐ)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tháng'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

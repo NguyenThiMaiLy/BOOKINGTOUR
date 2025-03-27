@@ -1,0 +1,233 @@
+﻿@model BookingTour.Models.SearchTourViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+@{
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    bool hasPreviousPage = ViewBag.HasPreviousPage;
+    bool hasNextPage = ViewBag.HasNextPage;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="~/css/chat-user.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <title>Tour Free Bootstrap Template for Travel Agency by Untree.co</title>
+</head>
+<div class="untree_co-section">
+    <div class="container">
+        <div class="row text-center justify-content-center mb-5">
+            <div class="col-lg-7">
+                <h2 class="section-title text-center">Điểm đến phổ biến</h2>
+            </div>
+        </div>
+
+        <div class="owl-carousel owl-3-slider owl-loaded owl-drag">
+            @if (ViewBag.MostBookedTours != null)
+            {
+                @foreach (var tourInfo in ViewBag.MostBookedTours)
+                {
+                    <div class="item">
+                        <a class="media-thumb" href="@tourInfo.Tour.Image" data-fancybox="gallery">
+                            <div class="media-text">
+                                <h3>@tourInfo.Tour.Name</h3>
+                                <span class="location">Số lượt đặt: @tourInfo.BookingCount</span>
+                            </div>
+                            <img src="@Url.Content("~/images/" + @tourInfo.Tour.Image)" alt="@tourInfo.Tour.Name" style="width: 100%; height: 450px; object-fit: cover; " class="img-fluid">
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="untree_co-section">
+    <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-6">
+                <h2 class="section-title text-center mb-3">Khuyến mãi &amp; Giảm giá đặc biệt</h2>
+                <p>Xã xa, đằng sau những ngọn núi chữ, xa khỏi các quốc gia Vokalia và Consonantia, có những văn bản mù sống. Tách biệt chúng sống trong Bookmarksgrove ngay tại bờ biển của Semantics, một đại dương ngôn ngữ rộng lớn.</p>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var tour in ViewBag.PopularTours)
+            {
+                <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4">
+                    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; background-color: #fff; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <a href="@Url.Action("Details", "Tours", new { id = tour.IdTour })" class="d-block mb-3">
+                            <img src="@Url.Content("~/images/" + tour.Image)"
+                                 alt="Hình ảnh"
+                                 style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
+                        </a>
+                        <span class="d-flex align-items-center loc mb-2"
+                              style="font-size: 14px; color: #888;">
+                            <span class="icon-room mr-3"></span>
+                            <span>@tour.IdHotelNavigation?.Name</span>
+                        </span>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 5px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-height: 3rem;">
+                                <a href="@Url.Action("Details", "Tours", new { id = tour.IdTour })"
+                                   style="color: #333; text-decoration: none;">
+                                    @tour.Name
+                                </a>
+                            </h3>
+                            <div style="font-size: 14px; font-weight: 500; color: #007bff;">
+                                <span>@tour.Price.ToString("C") VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="pagination justify-content-center">
+            @if (hasPreviousPage)
+            {
+                <a class="page-link" href="@Url.Action("Index", new { page = currentPage - 1 })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            }
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <a class="page-link @(i == currentPage ? "active" : "")" href="@Url.Action("Index", new { page = i })">@i</a>
+            }
+            @if (hasNextPage)
+            {
+                <a class="page-link" href="@Url.Action("Index", new { page = currentPage + 1 })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            }
+        </div>
+      
+    </div>
+@*     <div class="chat" onclick="toggleChat()">
+        <span style="color: white;">Chat</span>  <!-- Nút chat -->
+    </div>
+    <div id="chatWindow" class="chat-window">
+        <div class="chat-header">
+            <span>Chat with Admin</span>
+            <button onclick="toggleChat()" class="close-btn">×</button>
+        </div>
+        <div class="chat-body">
+            <ul id="messagesList"></ul>
+        </div>
+        <div class="chat-footer">
+            <input id="messageInput" type="text" placeholder="Enter your message" />
+            <button id="sendButton" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div> *@
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+<script src="~/js/chat-realtime-user.js"></script>
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<script src="~/js/typed.js"></script>
+<script>
+        function showPopup(message) {
+            const popup = document.getElementById("customPopup");
+            const popupMessage = document.getElementById("popupMessage");
+            popupMessage.innerText = message; // Gán thông báo động
+            popup.classList.remove("hidden"); // Hiển thị popup
+        }
+
+        // Hàm đóng popup
+        function closePopup() {
+            const popup = document.getElementById("customPopup");
+            popup.classList.add("hidden"); // Ẩn popup
+        }
+</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const successMessage = "@TempData["SuccessMessage"]";
+            const errorMessage = "@TempData["ErrorMessage"]";
+
+            if (successMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: successMessage,
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            if (errorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: errorMessage,
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+            var slides = $('.slides'),
+                images = slides.find('img');
+
+            images.each(function (i) {
+                $(this).attr('data-id', i + 1);
+            })
+
+            var typed = new Typed('.typed-words', {
+                strings: ["Đà lạt.", " Huế.", " Hà Nội.", " Đà Nẵng.", " Bến Tre."],
+                typeSpeed: 80,
+                backSpeed: 80,
+                backDelay: 4000,
+                startDelay: 1000,
+                loop: true,
+                showCursor: true,
+                preStringTyped: (arrayPos, self) => {
+                    arrayPos++;
+                    console.log(arrayPos);
+                    $('.slides img').removeClass('active');
+                    $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+                }
+
+            });
+        })
+    </script>
+
+<script src="~/js/custom.js"></script>
+
+
+</html>

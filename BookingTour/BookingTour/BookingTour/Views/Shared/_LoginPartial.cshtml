@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    // Lấy URL avatar của người dùng
+    var user = await UserManager.GetUserAsync(User);
+    var avatarUrl = user?.AvatarUrl ?? "/images/default-avatar.jpg";
+   
+     // Dùng ảnh mặc định nếu không có avatar
+}
+@if (SignInManager.IsSignedIn(User))
+{
+   
+    <li class="has-children">
+        <a href="#">
+            <img src="@Url.Content(avatarUrl)" alt="Hình ảnh" class="img-fluid" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+        </a>
+        <ul class="dropdown">
+            <li >
+                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @user.fullname</a>
+            </li>
+           
+            <li >
+                <a asp-controller="Profile" asp-action="ViewProfile" class="nav-link text-dark">Trang cá nhân</a>
+
+            </li>
+            <li>
+                <a asp-controller="History" asp-action="Index" class="nav-link text-dark">Lịch sử đặt </a>
+
+            </li>
+            <li>
+                <a asp-controller="History" asp-action="MyInvoices" class="nav-link text-dark">Hóa đơn </a>
+
+            </li>
+            <li>
+                <a asp-controller="HostRegistration" asp-action="Register" class="nav-link text-dark">Đăng ký làm nhà cung cấp </a>
+
+            </li>
+            <li>
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                </form>
+            </li>
+          
+        </ul>
+						
+	    </li>
+}
+else
+{
+     <li class="has-children">
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+            </svg>
+        </a>
+        <ul class="dropdown">
+    <li >
+        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li >
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+ 
+        </ul>
+
+    </li>
+}
+
+

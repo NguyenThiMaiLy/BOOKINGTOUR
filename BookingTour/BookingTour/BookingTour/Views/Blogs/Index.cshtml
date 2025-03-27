@@ -1,0 +1,225 @@
+﻿@model IEnumerable<BookingTour.Models.Blog>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+
+</head>
+
+
+<div style="max-width: 1200px; margin: auto; display: flex; gap: 20px; padding: 20px;">
+
+    <!-- Bảng xếp hạng blog -->
+   @*  <div style="flex: 1; background: #f3f4f6; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h3 style="font-size: 22px; color: #333; margin-bottom: 20px;">Bảng Xếp Hạng Blog</h3>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog1.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Hành Trình Khám Phá Sơn Đoòng" - 500 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog2.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Bí Quyết Du Lịch Tiết Kiệm Tại Nhật Bản" - 470 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/blog3.jpg" alt="Blog Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="flex-grow: 1; color: #333; font-size: 16px;">"Chinh Phục Đỉnh Everest - Kinh Nghiệm Và Thử Thách" - 450 lượt xem</span>
+            </li>
+            </li>
+            <!-- Tiếp tục cho các blog còn lại... -->
+        </ul>
+    </div> *@
+
+    <!-- Phần nội dung blog chính -->
+    <div style="flex: 2; max-width: 800px;">
+        @foreach (var blog in Model)
+        {
+            <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                <div style="text-align: center;">
+                    <img src="@Url.Content("~/images/" + blog.ImageUrl)" alt="Thumbnail" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;">
+                </div>
+                <h2 style="font-size: 22px; margin-top: 10px; color: #333;">@blog.Title</h2>
+                <p style="color: #999; font-size: 14px;">Ngày tạo: @blog.CreatedAt.ToString("dd/MM/yyyy")</p>
+                <div style="margin-top: 10px;">
+                    @if (!string.IsNullOrEmpty(blog.Tags))
+                    {
+                        foreach (var tag in blog.Tags.Split(','))
+                        {
+                            <span style="background-color: #e0e7ff; color: #3b82f6; padding: 5px 10px; border-radius: 15px; font-size: 12px; margin-right: 5px;">@tag</span>
+                        }
+                    }
+                </div>
+                <div style="font-size: 16px; color: #555; line-height: 1.6; margin-top: 10px;">
+                    <p>@(blog.Content.Length > 200 ? blog.Content.Substring(0, 200) + "..." : blog.Content)</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Top 10 bài viết đọc nhiều -->
+    <div style="flex: 1; background: #f3f4f6; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h3 style="font-size: 22px; color: #333; margin-bottom: 20px;">Top 10 Bài Viết Đọc Nhiều</h3>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular1.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Top 10 Điểm Đến Phải Ghé Thăm Tại Việt Nam" - 1000 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular2.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Hướng Dẫn Săn Mùa Hoa Anh Đào Tại Hàn Quốc" - 950 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <li style="display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #ddd;">
+                <img src="~/images/popular3.jpg" alt="Popular Blog" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <span style="color: #333; font-size: 16px;">"Khám Phá Đảo Bali: Thiên Đường Biển Và Núi Lửa" - 920 lượt xem</span>
+            </li>
+            <!-- Tiếp tục cho các blog phổ biến còn lại... -->
+        </ul>
+    </div>
+</div>
+
+
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<script src="~/js/typed.js"></script>
+<script>
+    $(function () {
+        var slides = $('.slides'),
+            images = slides.find('img');
+
+        images.each(function (i) {
+            $(this).attr('data-id', i + 1);
+        })
+
+        var typed = new Typed('.typed-words', {
+            strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true,
+            preStringTyped: (arrayPos, self) => {
+                arrayPos++;
+                console.log(arrayPos);
+                $('.slides img').removeClass('active');
+                $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+            }
+
+        });
+    })
+</script>
+
+<script src="~/js/custom.js"></script>
+
+
+</html>

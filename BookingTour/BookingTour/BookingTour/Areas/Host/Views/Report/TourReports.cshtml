@@ -1,0 +1,112 @@
+﻿@model IEnumerable<BookingTour.Models.Report>
+
+@{
+    var currentPage = ViewBag.CurrentPage as int? ?? 1;
+    var totalPages = ViewBag.TotalPages as int? ?? 1;
+    var searchTerm = ViewBag.SearchTerm as string ?? "";
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2>
+                Danh sách tour
+            </h2>
+            <p>Thông tin các tour của người tôi</p>
+            <form method="get" action="@Url.Action("TourReports")" style="position: absolute; top: 10px; right: 10px; ">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit"
+                        style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <!-- Bảng danh sách báo cáo -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID Báo Cáo</th>
+                            <th>Tên Tour</th>
+                            <th>Người Báo Cáo</th>
+                            <th>Nội Dung</th>
+                            <th>Ngày Báo Cáo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var report in Model)
+                        {
+                            <tr>
+                                <td>@report.IdReport</td>
+                                <td>@report.IdTourNavigation.Name</td>
+                                <td>@report.IdNavigation.fullname</td>
+                                <td>@report.Rating</td>
+                                <td>@report.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                                <td>
+
+                                    <button type="button" class="btn btn-primary openModalButton" data-report-id="123">Gửi Phản Hồi</button>
+                                    <div class="modal fade" id="respondModal" tabindex="-1" role="dialog" aria-labelledby="respondModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="respondModalLabel">Phản Hồi Báo Cáo</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form asp-action="RespondToReport" method="post">
+                                                    <input type="hidden" name="reportId" value="@report.IdReport" />
+
+                                                    <div style="position: relative;">
+                                                        <!-- Textarea với padding phải để tránh bị chồng lên button -->
+                                                        <textarea name="responseMessage" placeholder="Nhập phản hồi..." rows="3" class="form-control" style="width: 100%; padding-right: 100px;"></textarea>
+
+                                                        <!-- Nút gửi phản hồi nằm bên phải của textarea -->
+                                                        <button type="submit" class="btn btn-primary mt-2" style="position: absolute; right: 10px; bottom: 10px;">Gửi Phản Hồi</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @for (var i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("TourReports", new { pageNumber = i, pageSize = 10, searchTerm = searchTerm })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.openModalButton').click(function () {
+            var reportId = $(this).data('report-id'); // Lấy ID báo cáo
+            $('#reportId').val(reportId); // Gán ID vào input ẩn
+            $('#respondModal').modal('show'); // Mở modal
+        });
+    });
+</script>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BookingTour.Models.HostRegistration>
+
+@{
+    ViewData["Title"] = "Danh Sách Đăng Ký Nhà Cung Cấp Tour";
+    Layout = null; // Layout mà bạn đang sử dụng
+}
+
+<h2>Danh Sách Đăng Ký Nhà Cung Cấp Tour</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Họ và Tên</th>
+            <th>Email</th>
+            <th>Ngày Đăng Ký</th>
+            <th>Trạng Thái Phê Duyệt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var registration in Model)
+            {
+                <tr>
+                    <td>@registration.FullName</td>
+                    <td>@registration.Email</td>
+                    <td>@registration.RegistrationDate.ToString("dd/MM/yyyy")</td>
+                    <td>@(registration.IsApproved ? "Đã Phê Duyệt" : "Chưa Phê Duyệt")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">Không có đăng ký nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Thêm script để hiển thị thông báo nếu cần -->
+@section Scripts {
+    <script>
+        // Bạn có thể thêm JavaScript ở đây nếu cần
+    </script>
+}

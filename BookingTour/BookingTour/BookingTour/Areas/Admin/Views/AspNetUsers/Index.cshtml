@@ -1,0 +1,309 @@
+﻿@model IEnumerable<BookingTour.Models.AspNetUser>
+@{
+    ViewData["Title"] = "Danh sách người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .alert {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+</style>
+
+
+<div id="notification" class="notification" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50; /* Màu xanh cho thông báo thành công */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none; /* Ẩn mặc định */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    z-index: 9999; /* Đảm bảo hiển thị ở trên cùng */
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;">
+    <span id="notification-message"></span>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+           
+            <h2>
+                DANH SÁCH NGƯỜI DÙNG
+               
+            </h2>
+            <form method="get" action="@Url.Action("Index")" style="position: absolute; top: 10px; right: 10px; ">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit"
+                        style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+
+        </div>
+        <div class="body table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên tài khoản</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Trạng Thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>
+                                @if (user.LockoutEnabled)
+                                {
+                                    <span class="text-danger">Đã Khóa</span>
+                                }
+                                else
+                                {
+                                    <span class="text-success">Hoạt Động</span>
+                                }
+                            </td>
+                            <td style ="display: flex; align-items: center; gap: 8px;">
+                             @*    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editUserModal"
+                                        data-id="@user.Id"
+                                        data-username="@user.UserName"
+                                        data-fullname="@user.fullname"
+                                        data-address="@user.Address"
+                                        data-age="@user.Age"
+                                        data-email="@user.Email"
+                                        data-phone="@user.PhoneNumber">
+                                    Chỉnh sửa
+                                </button> *@
+
+                                <!-- Modal Edit Form -->
+                                <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editUserModalLabel">Chỉnh sửa người dùng</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Form gửi thông tin chỉnh sửa đến Controller -->
+                                                <form method="post" asp-action="Editdi" asp-controller="AspNetUsers" asp-area="Admin">
+                                                    <input type="hidden" id="Id" name="id" />
+                                                    <div class="mb-3">
+                                                        <label for="UserName" class="form-label">Tên tài khoản</label>
+                                                        <input type="text" class="form-control" id="UserName" name="userName" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="FullName" class="form-label">Họ tên</label>
+                                                        <input type="text" class="form-control" id="FullName" name="fullName" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="Address" class="form-label">Địa chỉ</label>
+                                                        <input type="text" class="form-control" id="Address" name="address" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="Age" class="form-label">Tuổi</label>
+                                                        <input type="number" class="form-control" id="Age" name="age" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="Email" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="Email" name="email" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="PhoneNumber" class="form-label">Số điện thoại</label>
+                                                        <input type="text" class="form-control" id="PhoneNumber" name="phoneNumber" />
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                              
+
+
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@user.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-medical" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                </a> |
+                                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@user.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                    </svg>
+                                </a> |
+                                <form asp-action="DeleteConfirmed" asp-controller="AspNetUsers" method="post" style="margin-bottom: 0; margin-right: 10px;">
+                                    <input type="hidden" asp-for="@user.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                        </svg>
+                                    </button>
+                                </form>
+
+                               @*  <a class="btn btn-danger btn-sm"  href="@Url.Action("Delete", "AspNetUsers", new { area = "Admin", id = user.Id })" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                    </svg>
+                                </a> *@|
+                                <a  >
+                                    @if (user.LockoutEnabled)
+                    {
+                        <form asp-action="UnlockAccount" method="post">
+                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button class="btn btn-danger" style="background-color:red" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
+                                                </svg>
+                                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="LockAccount" method="post">
+                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button class="btn btn-success" style="background-color:green" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+                                                    <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2M3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" />
+                                                </svg>
+                                            </button>
+                        </form>
+                    }
+                    </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <!-- Modal chỉnh sửa người dùng -->
+      
+
+    
+
+
+            <!-- Phân trang -->
+            <div class="pagination-wrapper">
+                <ul class="pagination">
+                    <li class="paginate_button previous @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="paginate_button @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a href="@Url.Action("Index", new { page = i })">@i</a>
+                        </li>
+                    }
+                    <li class="paginate_button next @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        function closePopup(popupId) {
+            var popup = document.getElementById(popupId);
+            popup.style.display = "none";
+        }
+
+        // Tự động đóng popup sau 3 giây
+        window.onload = function () {
+            if (document.getElementById('popup-success') !== null) {
+                setTimeout(function () {
+                    closePopup('popup-success');
+                }, 3000);
+            }
+            if (document.getElementById('popup-error') !== null) {
+                setTimeout(function () {
+                    closePopup('popup-error');
+                }, 3000);
+            }
+        };
+    </script>
+    <script>
+        $('#editUserModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Nút kích hoạt modal
+            var userId = button.data('id');
+            var username = button.data('username');
+            var fullname = button.data('fullname');
+            var address = button.data('address');
+            var age = button.data('age');
+            var email = button.data('email');
+            var phone = button.data('phone');
+
+            var modal = $(this);
+            modal.find('.modal-body #Id').val(userId); // Cập nhật Id
+            modal.find('.modal-body #UserName').val(username);
+            modal.find('.modal-body #FullName').val(fullname);
+            modal.find('.modal-body #Address').val(address);
+            modal.find('.modal-body #Age').val(age);
+            modal.find('.modal-body #Email').val(email);
+            modal.find('.modal-body #PhoneNumber').val(phone);
+        });
+    </script>
+    <script>
+        function showNotification(message, isError = false) {
+            // Lấy phần tử popup và gắn tin nhắn vào
+            const notification = document.getElementById("notification");
+            const messageElement = document.getElementById("notification-message");
+
+            // Thiết lập thông báo là lỗi hoặc thành công
+            if (isError) {
+                notification.style.backgroundColor = "#f44336"; // Màu đỏ cho thông báo lỗi
+            } else {
+                notification.style.backgroundColor = "#4CAF50"; // Màu xanh cho thông báo thành công
+            }
+
+            // Cập nhật tin nhắn
+            messageElement.textContent = message;
+
+            // Hiển thị thông báo
+            notification.style.display = "block";
+
+            // Ẩn thông báo sau 3 giây
+            setTimeout(function () {
+                notification.style.opacity = "0"; // Làm mờ đi
+                setTimeout(function () {
+                    notification.style.display = "none"; // Ẩn đi hoàn toàn sau khi mờ
+                }, 500); // Thời gian làm mờ (0.5s)
+            }, 3000); // Thời gian hiển thị thông báo (3 giây)
+        }
+
+    </script>
+}

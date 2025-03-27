@@ -1,0 +1,185 @@
+﻿@model BookingTour.Models.SearchTourViewModel
+
+@{
+    ViewData["Title"] = "Tìm Kiếm Tour";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+    <link href="~/css/aos.css" rel="stylesheet" />
+    <link href="~/css/user/history.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+    <link href="~/css/daterangepicker.css" rel="stylesheet" />
+    <link href="~/css/jquery.fancybox.min.css" rel="stylesheet" />
+    <link href="~/css/mixins/_background-variant.css" rel="stylesheet" />
+    <link href="~/css/mixins/_deprecate.css" rel="stylesheet" />
+    <link href="~/css/mixins/_resize.css" rel="stylesheet" />
+    <link href="~/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/css/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/css/_mixins.css" rel="stylesheet" />
+    <link href="~/css/_site-blocks.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>Tour Free Bootstrap Template for Travel Agency by Untree.co</title>
+</head>
+<div class="untree_co-section count-numbers py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+               
+                <form asp-action="Search" method="get" class="mb-5">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="destinationAddress">Địa chỉ điểm đến:</label>
+                            <select name="destinationAddress" class="form-control custom-select">
+                                @if (ViewBag.SelectedDestinationAddress != null){
+                                    <option value="">@ViewBag.SelectedDestinationAddress </option>
+                                }
+                                else
+                                {
+                                    <option value="">chọn địa diểm </option>
+                                }
+                                @if (Model.Destinations != null)
+                                {
+                                    foreach (var destination in Model.Destinations)
+                                    {
+                                        <option value="@destination.Address">@destination.Address</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="" disabled>Không có địa điểm nào khả dụng</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="startDate">Ngày khởi hành:</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="tourType">Loại hình tour:</label>
+                            <select class="form-control" id="tourType" name="tourType">
+                                @if (ViewBag.SelectedTourType != null)
+                                {
+                                    <option value="">@ViewBag.SelectedTourType</option>
+                                }
+                                else
+                                {
+                                    <option value="">-- Chọn loại hình tour --</option>
+                                }
+                              
+                                @foreach (var type in Model.TourTypes)
+                                {
+                                    <option value="@type.Name">@type.Name</option>
+                                }
+                            </select>
+                          
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        </div>
+                    </div>
+                    
+                </form>
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+<hr />
+
+<div style="background-color:#ecf0f5; border-radius:10px; padding: 20px;">
+    <div class="container">
+        <h3 class="tour-title">Kết quả tìm kiếm</h3>
+        @if (Model != null)
+        {
+            <div class="list-group">
+                @foreach (var tour in Model.Tours)
+                {
+                    <div class="list-group-item" style="margin-bottom: 20px; padding: 15px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: flex; align-items: center;">
+                        <a asp-controller="Tours" asp-action="Details" asp-route-id="@tour.IdTour" > <img src="@Url.Content("~/images/" + tour.Image)" alt="Hình ảnh của tour @tour.Name" class="tour-image" style="width: 200px; height: auto; border-radius: 8px; margin-right: 15px;" /></a>
+                        <div style="flex: 1;">
+                            <h5 class="tour-title">@tour.Name</h5>
+                            <p class="tour-info"><strong>Giá:</strong> @tour.Price VNĐ</p>
+                            <p class="tour-info"><strong>Ngày khởi hành:</strong> @tour.StartDate?.ToString("dd/MM/yyyy")</p>
+                            <p class="tour-info">
+                                <strong>Địa điểm:</strong>
+                                @foreach (var detail in tour.TourDetails)
+                                {
+                                    <span>@detail.IdDesNavigation.Address</span>
+                                }
+                            </p>
+                            
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>Không tìm thấy tour nào phù hợp với tiêu chí tìm kiếm.</p>
+        }
+    </div>
+</div>
+
+
+<div class="form-group">
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<script src="~/js/typed.js"></script>
+<script>
+    $(function () {
+        var slides = $('.slides'),
+            images = slides.find('img');
+
+        images.each(function (i) {
+            $(this).attr('data-id', i + 1);
+        })
+
+        var typed = new Typed('.typed-words', {
+            strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true,
+            preStringTyped: (arrayPos, self) => {
+                arrayPos++;
+                console.log(arrayPos);
+                $('.slides img').removeClass('active');
+                $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+            }
+
+        });
+    })
+</script>
+
+<script src="~/js/custom.js"></script>
+
+
+</html>

@@ -1,0 +1,59 @@
+﻿@model BookingTour.Models.Promotion
+
+@{
+    ViewData["Title"] = "Xóa Khuyến mãi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <div class="card mt-4 shadow-sm">  
+    <h1 class="my-4">Xóa Khuyến mãi</h1>
+
+    <h3>Bạn có chắc chắn muốn xóa không?</h3>
+    <div>
+        <h4>Thông tin Khuyến mãi</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">
+               Tên khuyến mãi:
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-3">
+               Mô tả khuyến mãi:
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-3">
+                Ngày bắt đầu khuyến mãi:
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+            <dt class="col-sm-3">
+               Ngày kết thúc khuyến mãi:
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
+            <dt class="col-sm-3">
+                Mức giảm giá
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.DiscountAmount)
+            </dd>
+           
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="IdPmt" />
+            <div class="form-group">
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>

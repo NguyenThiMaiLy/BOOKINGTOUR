@@ -1,0 +1,164 @@
+﻿@model BookingTour.Models.SearchTourViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutUser";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="~/css/chat-user.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+    <title>Tour Free Bootstrap Template for Travel Agency by Untree.co</title>
+</head>
+
+<div style="display: flex; gap: 20px; padding: 20px;">
+   
+
+   
+    <!-- Phần bên trái: Danh sách các loại tour -->
+        <div style="flex: 1; max-width: 300px; border-right: 1px solid #ddd; padding-right: 20px;">
+            <h3 style="font-size: 1.5em; color: #333; margin-bottom: 20px; font-weight: bold;">Danh mục</h3>
+            <p style="border-bottom: 1px solid #333; margin: 10px 0;"></p>
+            <ul style="list-style-type: none; padding: 0; margin: 0;">
+                @foreach (var type in Model.TourTypes)
+                {
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 1.1em;">
+                        <a href="@Url.Action("TourList", "Tours", new { typeId = type.IdType })"
+                           style="text-decoration: none; color: black; font-weight: bold;">
+                            @type.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+  
+    <!-- Phần bên phải: Danh sách tour hiển thị trong thẻ card -->
+    <div style="flex: 3;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <form method="get" action="@Url.Action("TourList", "Tours")">
+                <input type="text" name="hotelName" placeholder="Tên khách sạn" value="@Context.Request.Query["hotelName"]" />
+                <input type="text" name="transportationName" placeholder="Tên phương tiện" value="@Context.Request.Query["transportationName"]" />
+                <input type="text" name="typeName" placeholder="Tên loại tour" value="@Context.Request.Query["typeName"]" />
+                <select name="priceOrder">
+                    <option value="asc"> Thấp đến Cao</option>
+                    <option value="desc"> Cao đến Thấp</option>
+                </select>
+                <button type="submit" style="background-color:white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Form tìm kiếm theo giá -->
+        @*     <form method="get" action="@Url.Action("TourList", "Tours")" style="display: flex; gap: 5px;">
+                <input type="number" name="maxPrice" placeholder="Max Price" min="0"
+                       style="padding: 5px; border: 1px solid #ddd; border-radius: 3px;">
+                <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: #fff;
+                                             border: none; border-radius: 3px; cursor: pointer;">
+                    Search
+                </button>
+            </form> *@
+        </div>
+
+        <!-- Danh sách các tour -->
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+            @foreach (var tour in Model.Tours)
+            {
+                <div style="flex: 1 1 calc(33.333% - 20px); border: 1px solid #ddd; border-radius: 5px; overflow: hidden;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1); position: relative;">
+
+                    <!-- Ribbon or Label on Top Left -->
+                    <div style="position: absolute; top: 10px; left: 10px; background-color: #d9534f; color: white;
+                        padding: 5px 10px; font-weight: bold; border-radius: 3px;">
+                        Số Lượng Có Hạn
+                    </div>
+
+                    <a href="@Url.Action("Details", "Tours", new { id = tour.IdTour })" class="d-block mb-3">
+                        <img src="@Url.Content("~/images/" + tour.Image)" alt="@tour.Name" style="width: 100%; height: 200px; object-fit: cover;">
+                    </a>
+
+                    <!-- Tour Name and Info -->
+                    <div style="padding: 10px;">
+                        <h4 style="margin: 0; font-size: 1.2em; font-weight: bold; color: black;">@tour.Name</h4>
+                        <p style="margin: 5px 0; font-size: 0.9em; color: #888;">8.4 Rất tốt | 15 đánh giá</p>
+
+                        <div style="font-size: 0.9em; color: #007bff; display: flex; flex-wrap: wrap; gap: 5px;">
+
+                            <div><span>• Khách sạn : @tour.IdHotelNavigation.Name</span></div>
+
+                            <div>  <span>• Phương tiện: @tour.IdTransNavigation.Name</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Price and Booking Info -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #f9f9f9; border-top: 1px solid #ddd;">
+                        <div style="font-size: 0.9em; color: #d9534f; font-weight: bold;">
+                            4 khách đặt trong 24h qua
+                        </div>
+                        <div style="color: orange; font-size: 1.2em; font-weight: bold;">
+                            @tour.Price VNĐ
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        <!-- Phân trang -->
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+            @if (ViewBag.HasPreviousPage)
+            {
+                <a href="@Url.Action("TourList", "Tour", new { page = ViewBag.CurrentPage - 1 })"
+                   style="padding: 10px 15px; margin-right: 5px; background-color: #007bff; color: #fff;
+                          text-decoration: none; border-radius: 3px;">Previous</a>
+            }
+
+            <span style="padding: 10px 15px; background-color: #f1f1f1; border-radius: 3px;">
+                Page @ViewBag.CurrentPage of @ViewBag.TotalPages
+            </span>
+
+            @if (ViewBag.HasNextPage)
+            {
+                <a href="@Url.Action("TourList", "Tour", new { page = ViewBag.CurrentPage + 1 })"
+                   style="padding: 10px 15px; margin-left: 5px; background-color: #007bff; color: #fff;
+                          text-decoration: none; border-radius: 3px;">Next</a>
+            }
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-3.4.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.animateNumber.min.js"></script>
+<script src="~/js/jquery.waypoints.min.js"></script>
+<script src="~/js/jquery.fancybox.min.js"></script>
+<script src="~/js/aos.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+<script src="~/js/typed.js"></script>
+<script src="~/js/custom.js"></script>
+
+</html>

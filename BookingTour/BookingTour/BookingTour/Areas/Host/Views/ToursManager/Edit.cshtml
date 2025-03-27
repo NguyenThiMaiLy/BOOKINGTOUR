@@ -1,0 +1,114 @@
+﻿@model BookingTour.Models.Tour
+
+@{
+    ViewData["Title"] = "Chỉnh Sửa Tour";
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+
+<h1>Chỉnh Sửa Tour</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <strong>Có lỗi xảy ra khi lưu dữ liệu:</strong><br />
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                </div>
+            }
+            <input type="hidden" asp-for="IdTour" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" type="date" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" type="date" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaxQuantity" class="control-label"></label>
+                <input asp-for="MaxQuantity" class="form-control" type="number" />
+                <span asp-validation-for="MaxQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsDelete" class="control-label"></label>
+                <select asp-for="IsDelete" class="form-control">
+                    <option value="N">Không</option>
+                   
+                </select>
+                <span asp-validation-for="IsDelete" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdType" class="control-label"></label>
+                <select asp-for="IdType" class="form-control" asp-items="ViewBag.TypeList"></select>
+                <span asp-validation-for="IdType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdTrans" class="control-label"></label>
+                <select asp-for="IdTrans" class="form-control" asp-items="ViewBag.TransportationList"></select>
+                <span asp-validation-for="IdTrans" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdHotel" class="control-label"></label>
+                <select asp-for="IdHotel" class="form-control" asp-items="ViewBag.HotelList"></select>
+                <span asp-validation-for="IdHotel" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="ApprovalStatus" class="control-label"></label>
+                <select asp-for="ApprovalStatus" class="form-control">
+                    <option value="Đang chờ">Đang chờ</option>
+                    
+                </select>
+                <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

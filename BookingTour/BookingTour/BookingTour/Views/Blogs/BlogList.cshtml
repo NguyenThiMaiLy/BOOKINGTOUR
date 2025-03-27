@@ -1,0 +1,143 @@
+﻿@model IEnumerable<BookingTour.Models.Blog>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+
+</head>
+
+<div style="display: flex; gap: 20px;">
+    <!-- Phần blog nổi bật -->
+    <div style="flex: 2; position: relative; margin-bottom: 20px;">
+        <a href="@Url.Action("Details", "Blogs", new { id = Model.FirstOrDefault()?.IdBlog })">
+        <img src="~/images/@Model.FirstOrDefault()?.ImageUrl" alt="@Model.FirstOrDefault()?.Title"
+                 style="width: 100%; height: auto; object-fit: cover;">
+        </a>
+        <div style="position: absolute; bottom: 20px; left: 20px; color: white; background: rgba(0, 0, 0, 0.6); padding: 15px;">
+            <h3>@Model.FirstOrDefault()?.Title</h3>
+            <p>@Model.FirstOrDefault()?.Content.Substring(0, 150)...</p>
+            <a href="@Url.Action("Details", "Blog", new { id = Model.FirstOrDefault()?.IdBlog })"
+               style="color: white; text-decoration: underline;">Read More</a>
+        </div>
+    </div>
+
+    <!-- Danh sách các blog khác -->
+    <div style="flex: 1;">
+        <h4>Khuyến mãi</h4>
+        @foreach (var blog in Model.Skip(1))
+        {
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <a href="@Url.Action("Details", "Blogs", new { id = blog.IdBlog })">
+                <img src="~/images/@blog.ImageUrl" alt="@blog.Title"
+                         style="width: 80px; height: 80px; object-fit: cover;">
+                </a>
+                <div>
+                    <a href="@Url.Action("Details", "Blog", new { id = blog.IdBlog })"
+                       style="color: #333; font-weight: bold; text-decoration: none;">
+                        <h5>@blog.Title</h5>
+                    </a>
+                    <p>@blog.CreatedAt.ToString("dd/MM/yyyy") | <span>@blog.Status</span></p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Sidebar tìm kiếm và bài viết phổ biến -->
+    <div style="flex: 1;">
+        <div style="display: flex; margin-bottom: 20px;">
+            <input type="text" placeholder="Nhập từ khóa..." style="flex: 1; padding: 8px;">
+            <button type="submit" style="padding: 8px;">🔍</button>
+        </div>
+
+        <div style="background: #f9f9f9; padding: 15px; margin-top: 20px;">
+            <button style="cursor: pointer; padding: 8px; border: none; background: none; font-weight: bold; color: blue;">Đọc nhiều</button>
+            <button style="cursor: pointer; padding: 8px; border: none; background: none; font-weight: bold;">Bài mới</button>
+
+            <div>
+                @foreach (var popularBlog in Model.Take(5))
+                {
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <a href="@Url.Action("Details", "Blogs", new { id = popularBlog.IdBlog })">
+                        <img src="~/images/@popularBlog.ImageUrl" alt="@popularBlog.Title"
+                                 style="width: 60px; height: 60px; object-fit: cover;">
+                        </a>
+                        <a href="@Url.Action("Details", "Blog", new { id = popularBlog.IdBlog })"
+                           style="color: #333; font-weight: bold; text-decoration: none;">
+                            <h6>@popularBlog.Title</h6>
+                        </a>
+                        <p>@popularBlog.CreatedAt.ToString("dd/MM/yyyy")</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.animateNumber.min.js"></script>
+    <script src="~/js/jquery.waypoints.min.js"></script>
+    <script src="~/js/jquery.fancybox.min.js"></script>
+    <script src="~/js/aos.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+
+    <script src="~/js/typed.js"></script>
+    <script>
+        $(function () {
+            var slides = $('.slides'),
+                images = slides.find('img');
+
+            images.each(function (i) {
+                $(this).attr('data-id', i + 1);
+            })
+
+            var typed = new Typed('.typed-words', {
+                strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+                typeSpeed: 80,
+                backSpeed: 80,
+                backDelay: 4000,
+                startDelay: 1000,
+                loop: true,
+                showCursor: true,
+                preStringTyped: (arrayPos, self) => {
+                    arrayPos++;
+                    console.log(arrayPos);
+                    $('.slides img').removeClass('active');
+                    $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+                }
+
+            });
+        })
+    </script>
+
+    <script src="~/js/custom.js"></script>
+
+
+</html>

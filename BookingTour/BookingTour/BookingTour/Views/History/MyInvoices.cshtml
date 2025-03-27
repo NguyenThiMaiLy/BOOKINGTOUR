@@ -1,0 +1,146 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "MyInvoice";
+    Layout = "_LayoutUser";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link href="~/css/user/stylehistory.css" rel="stylesheet" />
+
+ 
+</head>
+<style>
+    .table-container {
+        padding: 20px; /* Khoảng cách bên trong */
+        margin: 20px 0; /* Khoảng cách bên ngoài */
+        background-color: #f8f9fa; /* Màu nền cho phần bảng */
+        border-radius: 5px; /* Bo tròn góc */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho phần bảng */
+    }
+
+    .table {
+        font-size: 1.2rem; /* Tăng kích thước font của bảng */
+    }
+
+        .table th, .table td {
+            padding: 15px; /* Tăng khoảng cách trong mỗi ô */
+        }
+
+</style>
+<body>
+    <div class="container" style="margin-bottom:20%">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID </th>
+                 
+                    <th>Mô Tả</th>
+                    <th>Tổng Số Tiền</th>
+                    <th>Ngày Lập</th>
+                    <th>Tổng thanh toán</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var invoice in Model)
+                {
+                    <tr>
+                        <td>@invoice.IdInvoice</td>
+                     
+                        <td>@invoice.Description</td>
+                        <td>@invoice.TotalAmount?.ToString("C")</td>
+                        <td>@invoice.BillingDate?.ToShortDateString()</td>
+                        <td>
+                            <ul class="list-unstyled">
+                                @foreach (var payment in invoice.Payments)
+                                {
+                                    <li>
+                                        @payment.PaidAmount?.ToString("C")
+                                            
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmCancelModal">
+                                Hủy Hóa Đơn
+                            </button>
+
+                            @*  <td><a asp-controller="Tours" asp-action="Detaillnvoice" class="btn btn-info">Xem chi tiết</a></td> *@
+                        </td>
+                        <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmCancelModalLabel">Xác Nhận Hủy Hóa Đơn</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn chắc chắn muốn hủy hóa đơn này và giảm 20% giá trị hóa đơn cho khách hàng không?
+                                        <div class="mt-3">
+                                            <strong>Chính sách:</strong> Khi hủy hóa đơn, khách hàng sẽ được hoàn lại 80% giá trị hóa đơn, tức là giảm 20% so với tổng giá trị hóa đơn ban đầu.
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post" action="@Url.Action("ConfirmCancelInvoice","Tours", new { id = invoice.IdInvoice })">
+                                            <input type="number" name="refundAmount" class="form-control" value="@(invoice.TotalAmount * 0.8M)" readonly />
+
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                            <button type="submit" class="btn btn-danger">Xác Nhận</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.animateNumber.min.js"></script>
+    <script src="~/js/jquery.waypoints.min.js"></script>
+    <script src="~/js/jquery.fancybox.min.js"></script>
+    <script src="~/js/aos.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+    <script src="~/js/typed.js"></script>
+    <script src="~/js/custom.js"></script>
+
+</body>
+</html>
